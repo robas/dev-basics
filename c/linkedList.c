@@ -130,9 +130,30 @@ int searchKey(node *head, dataType key) {
     return FALSE;
 }
 
+void reverseList(node **head) {
+    if (listLength(*head) == 1)
+        return;
+
+    node *p1 = *head;
+    node *p2 = p1->next;
+    node *p3 = p2->next;
+    p1->next = NULL;
+    while (p2->next) {
+        p2->next = p1;
+        p1 = p2;
+        p2 = p3;
+        p3 = p3->next;
+    }
+    p2->next = p1;
+    *head = p2;
+    return;
+}
+
 int main() {
     // testing the above linked list data structure and algorithm
     node *head = NULL;
+    node *head2 = NULL;
+    
     insertAtStart(&head, 'A');
     insertAtStart(&head, 'B');
     insertAtStart(&head, 'z');
@@ -175,6 +196,15 @@ int main() {
     if (searchKey(head, 'B'))
         printf("B encontrado\n");
     
+    insertAtEnd(&head2, 'b');
+    insertAtEnd(&head2, 'o');
+    insertAtEnd(&head2, 'z');
+    insertAtEnd(&head2, 'a');
+    insertAtEnd(&head2, 'a');
+    insertAtEnd(&head2, 'n');
+    printList(head2);
+    reverseList(&head2);
+    printList(head2);
     
     
 }
