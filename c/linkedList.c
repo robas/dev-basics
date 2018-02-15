@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#define TRUE 1
+#define FALSE 0
 
 typedef char dataType;
 
@@ -119,9 +121,13 @@ void deleteAtIndex(node **head, int index) {
     return;
 }
 
-// TODO
+// Returns true if the specified key exists in the list
 int searchKey(node *head, dataType key) {
-
+    for (node *iterator = head; iterator; iterator = iterator->next) {
+        if (iterator->data == key)
+            return TRUE;
+    }
+    return FALSE;
 }
 
 int main() {
@@ -165,4 +171,10 @@ int main() {
     deleteAtIndex(&head, 4);
     printList(head);
     printf("%d\n", listLength(head));
+    
+    if (searchKey(head, 'B'))
+        printf("B encontrado\n");
+    
+    
+    
 }
