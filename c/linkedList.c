@@ -1,140 +1,153 @@
-#include <stdlib.h>
-#include <stdio.h>
-#define TRUE 1
-#define FALSE 0
+#include "linkedList.h"
 
-typedef char dataType;
+linkedList* createLinkedList() {
+    linkedList* newList = malloc(sizeof(linkedList));
+    newList->head = NULL;
+    newList->length = 0;
+    return newList;
+}
 
-typedef struct node {
-    dataType data;
-    struct node *next;
-} node;
-
-node *initNode(dataType data) {
+node *createNode(dataType data) {
     node *newNode = malloc(sizeof(node));
     newNode->data = data;
     newNode->next = NULL;
     return newNode;    
 }
 
-void printList(node *node) {
-    if (!node) {
+int printList(linkedList* list) {
+    if (!list->head) {
         printf("The list is empty\n");
-        return;
+    } else {
+        node* iterator = list->head;
+        for (node* iterator = list->head; iterator; iterator = iterator->next) {
+            printf("%c", iterator->data);
+        }
+        printf("\n");
     }
-
-    while (node) {
-        printf("%c", node->data);
-        node = node->next;
-    }
-    printf("\n");
+    return 0;
 }
 
-int listLength(node *head) {
+int listLength(linkedList* list) {
     int i = 0;
-    for (node *iterator = head; iterator; iterator = iterator->next) {
+    for (node *iterator = list->head; iterator; iterator = iterator->next) {
         i++;
     }
     return i;
 }
 
-void insertAtStart(node **head, dataType data) {
-    node *newNode = initNode(data);
-    newNode->next = *head;
-    *head = newNode;
-    return;
-}
+// Returns the data at the specified index, considering an 1 based array
+dataType getAtIndex(linkedList *list, int index) {
+    if (index > list->length || index < 1)
+        return '\0';
 
-void insertAtEnd(node **head, dataType data) {
-    node *newNode = initNode(data);
-
-    if (!*head) {
-        *head = newNode;
-        return;
-    }
-
-    node *iterator = *head;
-    while (iterator->next) {
+    node *iterator = list->head;
+    for (int i = 1; i < index && iterator->next; i++) {
         iterator = iterator->next;
     }
-    iterator->next = newNode;
-    return;
+    
+    return iterator->data;
+}
+
+int insertAtStart(linkedList* list, dataType data) {
+    node *newNode = createNode(data);
+    newNode->next = list->head;
+    list->head = newNode;
+    list->length++;
+    return 0;
+}
+
+int insertAtEnd(linkedList* list, dataType data) {
+    node *newNode = createNode(data);
+
+    if (!list->head) {
+        list->head = newNode;
+    } else {
+
+        node *iterator = list->head;
+        while (iterator->next) {
+            iterator = iterator->next;
+        }
+        iterator->next = newNode;
+    }
+    list->length++;
+    return 0;
 }
 
 // Inserts data at the specified index, considering an 1 based array
-void insertAtIndex(node **head, dataType data, int index) {
-    if (index > listLength(*head)+1 || index <= 0)
-        return;
+int insertAtIndex(linkedList* list, dataType data, int index) {
+    if (index > list->length+1 || index < 1)
+        return -1;
 
-    node *newNode = initNode(data);
+    node *newNode = createNode(data);
     if (index == 1) {
-        newNode->next = *head;
-        *head = newNode;
-        return;
+        newNode->next = list->head;
+        list->head = newNode;
+    } else {
+        node *iterator = list->head;
+    
+        for (int i = 1; i < index-1 && iterator->next; i++) {
+            iterator = iterator->next;
+        }
+        newNode->next = iterator->next;
+        iterator->next = newNode;
     }
-
-    node *iterator = *head;
-
-    for (int i = 1; i < index-1 && iterator->next; i++) {
-        iterator = iterator->next;
-    }
-    newNode->next = iterator->next;
-    iterator->next = newNode;
-    return;
+    list->length++;
+    return 0;
 }
 
 // Deletes the first node entry which data corresponds to the specified key
-void deleteKey(node **head, dataType key) {
-    if ((*head)->data == key) {
-        node *temp = *head;
-        *head = (*head)->next;
+int removeKey(linkedList *list, dataType key) {
+    if (list->head->data == key) {
+        node *temp = list->head;
+        list->head = temp->next;
         free(temp);
-        return;
+    } else {
+        node *iterator = NULL;
+        for (iterator = list->head; iterator->next->data != key && iterator->next; iterator = iterator->next);
+        node *temp = iterator->next;
+        iterator->next = iterator->next->next;
+        free(temp);
     }
-    
-    node *iterator = NULL;
-    for (iterator = *head; iterator->next->data != key && iterator->next; iterator = iterator->next);
-    node *temp = iterator->next;
-    iterator->next = iterator->next->next;
-    free(temp);
-    return;
+    list->length--;
+    return 0;
 }
 
 // Deletes the node at the specified index, considering an 1 based array
-void deleteAtIndex(node **head, int index) {
-    if (index <= 0 || index > listLength(*head))
-        return;
+int removeAtIndex(linkedList *list, int index) {
+    if (index < 1 || index > list->length)
+        return -1;
     if (index == 1) {
-        node *temp = *head;
-        *head = (*head)->next;
+        node *temp = list->head;
+        list->head = temp->next;
         free(temp);
-        return;
+    } else {
+        node *iterator = list->head;
+    
+        for (int i = 1; i < index-1 && iterator->next; i++) {
+            iterator = iterator->next;
+        }
+        node *temp = iterator->next;
+        iterator->next = iterator->next->next;
+        free(temp);
     }
-    node *iterator = *head;
-
-    for (int i = 1; i < index-1 && iterator->next; i++) {
-        iterator = iterator->next;
-    }
-    node *temp = iterator->next;
-    iterator->next = iterator->next->next;
-    free(temp);
-    return;
+    list->length--;
+    return 0;
 }
 
 // Returns true if the specified key exists in the list
-int searchKey(node *head, dataType key) {
-    for (node *iterator = head; iterator; iterator = iterator->next) {
+int searchKey(linkedList *list, dataType key) {
+    for (node *iterator = list->head; iterator; iterator = iterator->next) {
         if (iterator->data == key)
             return TRUE;
     }
     return FALSE;
 }
 
-void reverseList(node **head) {
-    if (listLength(*head) == 1)
-        return;
+int reverseList(linkedList *list) {
+    if (list->length == 1)
+        return 0;
 
-    node *p1 = *head;
+    node *p1 = list->head;
     node *p2 = p1->next;
     node *p3 = p2->next;
     p1->next = NULL;
@@ -145,66 +158,6 @@ void reverseList(node **head) {
         p3 = p3->next;
     }
     p2->next = p1;
-    *head = p2;
-    return;
-}
-
-int main() {
-    // testing the above linked list data structure and algorithm
-    node *head = NULL;
-    node *head2 = NULL;
-    
-    insertAtStart(&head, 'A');
-    insertAtStart(&head, 'B');
-    insertAtStart(&head, 'z');
-    insertAtEnd(&head, 'o');
-    insertAtEnd(&head, 'z');
-    insertAtStart(&head, 'a');
-    
-    
-    insertAtIndex(&head, '2', 2);
-    insertAtIndex(&head, '8', 8);
-    insertAtIndex(&head, '1', 1);
-
-    printList(head);
-    printf("%d\n", listLength(head));
-
-    deleteKey(&head, 'a');
-    printList(head);
-    printf("%d\n", listLength(head));
-
-    deleteKey(&head, 'z');
-    printList(head);
-    printf("%d\n", listLength(head));
-
-    deleteKey(&head, '8');
-    printList(head);
-    printf("%d\n", listLength(head));
-
-    deleteAtIndex(&head, 3);
-    printList(head);
-    printf("%d\n", listLength(head));
-
-    deleteAtIndex(&head, 1);
-    printList(head);
-    printf("%d\n", listLength(head));
-
-    deleteAtIndex(&head, 4);
-    printList(head);
-    printf("%d\n", listLength(head));
-    
-    if (searchKey(head, 'B'))
-        printf("B encontrado\n");
-    
-    insertAtEnd(&head2, 'b');
-    insertAtEnd(&head2, 'o');
-    insertAtEnd(&head2, 'z');
-    insertAtEnd(&head2, 'a');
-    insertAtEnd(&head2, 'a');
-    insertAtEnd(&head2, 'n');
-    printList(head2);
-    reverseList(&head2);
-    printList(head2);
-    
-    
+    list->head = p2;
+    return 0;
 }
