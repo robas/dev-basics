@@ -1,4 +1,4 @@
-#include "linkedList.h"
+#include "stack.h"
 #include "queue.h"
 
 int main() {
@@ -50,15 +50,15 @@ int main() {
     // removeAtIndex(myList, myList->length);
     // printList(myList);
     
-    queue * myQueue = createQueue();
-    put(myQueue, 'a');
-    put(myQueue, 'b');
-    put(myQueue, 'c');
-    printf("%c",pop(myQueue));
-    printf("%c",pop(myQueue));
-    printf("%c",pop(myQueue));
-    printf("%c",pop(myQueue));
-    printf("%c",pop(myQueue));printf("%c",pop(myQueue));
+    stack * myStack = createStack();
+    stackPut(myStack, 'a');
+    stackPut(myStack, 'b');
+    stackPut(myStack, 'c');
+    printf("%c",stackPop(myStack));
+    printf("%c",stackPop(myStack));
+    printf("%c",stackPop(myStack));
+    printf("%c",stackPop(myStack));
+    printf("%c",stackPop(myStack));printf("%c",stackPop(myStack));
     printf("\n");
     
 }

@@ -4,12 +4,12 @@ queue* createQueue() {
     return createLinkedList();
 }
 
-void put(queue* queue, dataType data) {
+void queuePut(queue* queue, dataType data) {
     insertAtEnd(queue, data);
 }
 
-dataType pop(queue* queue) {
-    dataType ret = getAtIndex(queue, queue->length);
-    removeAtIndex(queue, queue->length);
+dataType queuePop(queue* queue) {
+    dataType ret = getAtIndex(queue, 1);
+    removeAtIndex(queue, 1);
     return ret;
 }

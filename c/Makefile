@@ -2,7 +2,7 @@ GCC = gcc
 CFLAGS = -std=c99
 INCLUDES = -I .
 CC = ${GCC} ${CFLAGS} ${INCLUDES}
-OBJS = main.o linkedList.o queue.o
+OBJS = main.o linkedList.o queue.o stack.o
 # To declare 'all' and 'clean' are not to be confused with filenames (in case there is any file named all or clean)
 .PHONY: all clean
 
@@ -19,6 +19,9 @@ linkedList.o: linkedList.c linkedList.h
 	
 queue.o: queue.c queue.h
 	${CC} -c queue.c
+	
+stack.o: stack.c stack.h
+	${CC} -c stack.c
 	
 clean:
 	@echo "Cleaning up..."
