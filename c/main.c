@@ -54,12 +54,13 @@ int main() {
     stackPut(myStack, 'a');
     stackPut(myStack, 'b');
     stackPut(myStack, 'c');
-    printf("%c",stackPop(myStack));
-    printf("%c",stackPop(myStack));
-    printf("%c",stackPop(myStack));
-    printf("%c",stackPop(myStack));
-    printf("%c",stackPop(myStack));
-    printf("%c",stackPop(myStack));
-    printf("\n");
+    myStack->print(myStack);
+    
+    printf("%c\n",stackPop(myStack));
+    printf("%c\n",stackPop(myStack));
+    printf("%c\n",stackPop(myStack));
+    printf("%c\n",stackPop(myStack));
+    printf("%c\n",stackPop(myStack));
+    printf("%c\n",stackPop(myStack));
     
 }

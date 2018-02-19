@@ -4,6 +4,9 @@ LinkedList* createLinkedList() {
     LinkedList* newList = malloc(sizeof(LinkedList));
     newList->head = NULL;
     newList->length = 0;
+    
+    // Testing a bit of OO style in C by using function pointers
+    newList->print = &printList;
     return newList;
 }
 

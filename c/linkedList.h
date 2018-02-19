@@ -23,6 +23,7 @@ typedef struct Node {
 typedef struct LinkedList {
     Node *head;
     int length;
+    int (*print)(struct LinkedList *list);
 } LinkedList;
 
 // Functions

@@ -11,4 +11,6 @@ void stackPut(Stack* stack, dataType data);
 
 dataType stackPop(Stack* stack);
 
+int printStack(Stack* stack);
+
 #endif

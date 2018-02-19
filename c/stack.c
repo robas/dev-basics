@@ -13,3 +13,7 @@ dataType stackPop(Stack* stack) {
     removeAtIndex(stack, 1);
     return ret;
 }
+
+int printStack(Stack* stack) {
+    stack->print(stack);
+}

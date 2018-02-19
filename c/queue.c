@@ -13,3 +13,7 @@ dataType queuePop(Queue* queue) {
     removeAtIndex(queue, 1);
     return ret;
 }
+
+int printQueue(Queue* queue) {
+    queue->print(queue);
+}

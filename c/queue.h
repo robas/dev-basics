@@ -11,4 +11,6 @@ void queuePut(Queue* queue, dataType data);
 
 dataType queuePop(Queue* queue);
 
+int printQueue(Queue* queue);
+
 #endif
