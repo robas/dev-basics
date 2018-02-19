@@ -1,25 +1,25 @@
 #include "linkedList.h"
 
-linkedList* createLinkedList() {
-    linkedList* newList = malloc(sizeof(linkedList));
+LinkedList* createLinkedList() {
+    LinkedList* newList = malloc(sizeof(LinkedList));
     newList->head = NULL;
     newList->length = 0;
     return newList;
 }
 
-node *createNode(dataType data) {
-    node *newNode = malloc(sizeof(node));
+Node *createNode(dataType data) {
+    Node *newNode = malloc(sizeof(Node));
     newNode->data = data;
     newNode->next = NULL;
     return newNode;    
 }
 
-int printList(linkedList* list) {
+int printList(LinkedList* list) {
     if (!list->head) {
         printf("The list is empty\n");
     } else {
-        node* iterator = list->head;
-        for (node* iterator = list->head; iterator; iterator = iterator->next) {
+        Node* iterator = list->head;
+        for (Node* iterator = list->head; iterator; iterator = iterator->next) {
             printf("%c", iterator->data);
         }
         printf("\n");
@@ -27,20 +27,20 @@ int printList(linkedList* list) {
     return 0;
 }
 
-int listLength(linkedList* list) {
+int listLength(LinkedList* list) {
     int i = 0;
-    for (node *iterator = list->head; iterator; iterator = iterator->next) {
+    for (Node *iterator = list->head; iterator; iterator = iterator->next) {
         i++;
     }
     return i;
 }
 
 // Returns the data at the specified index, considering an 1 based array
-dataType getAtIndex(linkedList *list, int index) {
+dataType getAtIndex(LinkedList *list, int index) {
     if (index > list->length || index < 1)
         return '\0';
 
-    node *iterator = list->head;
+    Node *iterator = list->head;
     for (int i = 1; i < index && iterator->next; i++) {
         iterator = iterator->next;
     }
@@ -48,22 +48,22 @@ dataType getAtIndex(linkedList *list, int index) {
     return iterator->data;
 }
 
-int insertAtStart(linkedList* list, dataType data) {
-    node *newNode = createNode(data);
+int insertAtStart(LinkedList* list, dataType data) {
+    Node *newNode = createNode(data);
     newNode->next = list->head;
     list->head = newNode;
     list->length++;
     return 0;
 }
 
-int insertAtEnd(linkedList* list, dataType data) {
-    node *newNode = createNode(data);
+int insertAtEnd(LinkedList* list, dataType data) {
+    Node *newNode = createNode(data);
 
     if (!list->head) {
         list->head = newNode;
     } else {
 
-        node *iterator = list->head;
+        Node *iterator = list->head;
         while (iterator->next) {
             iterator = iterator->next;
         }
@@ -74,16 +74,16 @@ int insertAtEnd(linkedList* list, dataType data) {
 }
 
 // Inserts data at the specified index, considering an 1 based array
-int insertAtIndex(linkedList* list, dataType data, int index) {
+int insertAtIndex(LinkedList* list, dataType data, int index) {
     if (index > list->length+1 || index < 1)
         return -1;
 
-    node *newNode = createNode(data);
+    Node *newNode = createNode(data);
     if (index == 1) {
         newNode->next = list->head;
         list->head = newNode;
     } else {
-        node *iterator = list->head;
+        Node *iterator = list->head;
     
         for (int i = 1; i < index-1 && iterator->next; i++) {
             iterator = iterator->next;
@@ -96,15 +96,15 @@ int insertAtIndex(linkedList* list, dataType data, int index) {
 }
 
 // Deletes the first node entry which data corresponds to the specified key
-int removeKey(linkedList *list, dataType key) {
+int removeKey(LinkedList *list, dataType key) {
     if (list->head->data == key) {
-        node *temp = list->head;
+        Node *temp = list->head;
         list->head = temp->next;
         free(temp);
     } else {
-        node *iterator = NULL;
+        Node *iterator = NULL;
         for (iterator = list->head; iterator->next->data != key && iterator->next; iterator = iterator->next);
-        node *temp = iterator->next;
+        Node *temp = iterator->next;
         iterator->next = iterator->next->next;
         free(temp);
     }
@@ -113,20 +113,20 @@ int removeKey(linkedList *list, dataType key) {
 }
 
 // Deletes the node at the specified index, considering an 1 based array
-int removeAtIndex(linkedList *list, int index) {
+int removeAtIndex(LinkedList *list, int index) {
     if (index < 1 || index > list->length)
         return -1;
     if (index == 1) {
-        node *temp = list->head;
+        Node *temp = list->head;
         list->head = temp->next;
         free(temp);
     } else {
-        node *iterator = list->head;
+        Node *iterator = list->head;
     
         for (int i = 1; i < index-1 && iterator->next; i++) {
             iterator = iterator->next;
         }
-        node *temp = iterator->next;
+        Node *temp = iterator->next;
         iterator->next = iterator->next->next;
         free(temp);
     }
@@ -135,21 +135,21 @@ int removeAtIndex(linkedList *list, int index) {
 }
 
 // Returns true if the specified key exists in the list
-int searchKey(linkedList *list, dataType key) {
-    for (node *iterator = list->head; iterator; iterator = iterator->next) {
+int searchKey(LinkedList *list, dataType key) {
+    for (Node *iterator = list->head; iterator; iterator = iterator->next) {
         if (iterator->data == key)
             return TRUE;
     }
     return FALSE;
 }
 
-int reverseList(linkedList *list) {
+int reverseList(LinkedList *list) {
     if (list->length == 1)
         return 0;
 
-    node *p1 = list->head;
-    node *p2 = p1->next;
-    node *p3 = p2->next;
+    Node *p1 = list->head;
+    Node *p2 = p1->next;
+    Node *p3 = p2->next;
     p1->next = NULL;
     while (p2->next) {
         p2->next = p1;

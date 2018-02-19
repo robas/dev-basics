@@ -15,39 +15,41 @@
 // Data structures
 typedef char dataType;
 
-typedef struct node {
+typedef struct Node {
     dataType data;
-    struct node *next;
-} node;
+    struct Node *next;
+} Node;
 
-typedef struct linkedList {
-    node *head;
+typedef struct LinkedList {
+    Node *head;
     int length;
-} linkedList;
+} LinkedList;
 
 // Functions
-linkedList* createLinkedList();
+LinkedList* createLinkedList();
 
-node* createNode(dataType);
+Node* createNode(dataType);
 
-int printList(linkedList* list);
+int printList(LinkedList* list);
 
-int listLength(linkedList* list);
+int listLength(LinkedList* list);
 
-dataType getAtIndex(linkedList* list, int index);
+dataType getAtIndex(LinkedList* list, int index);
 
-int insertAtStart(linkedList* list, dataType data);
+int insertAtStart(LinkedList* list, dataType data);
 
-int insertAtEnd(linkedList* list, dataType data);
+int insertAtEnd(LinkedList* list, dataType data);
 
-int insertAtIndex(linkedList* list, dataType data, int index);
+int insertAtIndex(LinkedList* list, dataType data, int index);
 
-int removeKey(linkedList* list, dataType key);
+int removeKey(LinkedList* list, dataType key);
 
-int removeAtIndex(linkedList* list, int index);
+int removeAtIndex(LinkedList* list, int index);
 
-int searchKey(linkedList* list, dataType key);
+int searchKey(LinkedList* list, dataType key);
 
-int reverseList(linkedList *list);
+int reverseList(LinkedList* list);
+
+// int sortList(LinkedList* list);
 
 #endif

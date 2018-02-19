@@ -3,12 +3,12 @@
 
 #include "linkedList.h"
 
-typedef linkedList queue;
+typedef LinkedList Queue;
 
-queue* createQueue();
+Queue* createQueue();
 
-void queuePut(queue* queue, dataType data);
+void queuePut(Queue* queue, dataType data);
 
-dataType queuePop(queue* queue);
+dataType queuePop(Queue* queue);
 
 #endif

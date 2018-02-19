@@ -50,7 +50,7 @@ int main() {
     // removeAtIndex(myList, myList->length);
     // printList(myList);
     
-    stack * myStack = createStack();
+    Stack * myStack = createStack();
     stackPut(myStack, 'a');
     stackPut(myStack, 'b');
     stackPut(myStack, 'c');
@@ -58,7 +58,8 @@ int main() {
     printf("%c",stackPop(myStack));
     printf("%c",stackPop(myStack));
     printf("%c",stackPop(myStack));
-    printf("%c",stackPop(myStack));printf("%c",stackPop(myStack));
+    printf("%c",stackPop(myStack));
+    printf("%c",stackPop(myStack));
     printf("\n");
     
 }

@@ -1,14 +1,14 @@
 #include "stack.h"
 
-stack* createStack() {
+Stack* createStack() {
     return createLinkedList();
 }
 
-void stackPut(stack* stack, dataType data) {
+void stackPut(Stack* stack, dataType data) {
     insertAtStart(stack, data);
 }
 
-dataType stackPop(stack* stack) {
+dataType stackPop(Stack* stack) {
     dataType ret = getAtIndex(stack, 1);
     removeAtIndex(stack, 1);
     return ret;

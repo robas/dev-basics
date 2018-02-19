@@ -1,14 +1,14 @@
 #include "queue.h"
 
-queue* createQueue() {
+Queue* createQueue() {
     return createLinkedList();
 }
 
-void queuePut(queue* queue, dataType data) {
+void queuePut(Queue* queue, dataType data) {
     insertAtEnd(queue, data);
 }
 
-dataType queuePop(queue* queue) {
+dataType queuePop(Queue* queue) {
     dataType ret = getAtIndex(queue, 1);
     removeAtIndex(queue, 1);
     return ret;
