@@ -1,5 +1,4 @@
-#include "stack.h"
-#include "queue.h"
+#include "binaryTree.h"
 
 int main() {
     // printf("Initializing linkedList\n");
@@ -50,17 +49,32 @@ int main() {
     // removeAtIndex(myList, myList->length);
     // printList(myList);
     
-    Stack * myStack = createStack();
-    stackPut(myStack, 'a');
-    stackPut(myStack, 'b');
-    stackPut(myStack, 'c');
-    myStack->print(myStack);
+    // Stack * myStack = createStack();
+    // stackPut(myStack, 'a');
+    // stackPut(myStack, 'b');
+    // stackPut(myStack, 'c');
+    // myStack->print(myStack);
     
-    printf("%c\n",stackPop(myStack));
-    printf("%c\n",stackPop(myStack));
-    printf("%c\n",stackPop(myStack));
-    printf("%c\n",stackPop(myStack));
-    printf("%c\n",stackPop(myStack));
-    printf("%c\n",stackPop(myStack));
+    // printf("%c\n",stackPop(myStack));
+    // printf("%c\n",stackPop(myStack));
+    // printf("%c\n",stackPop(myStack));
+    // printf("%c\n",stackPop(myStack));
+    // printf("%c\n",stackPop(myStack));
+    // printf("%c\n",stackPop(myStack));
     
+    BinaryTree *bt = btCreateBinaryTree();
+    btInsert(bt, 2);
+    btInsert(bt, 5);
+    btInsert(bt, 1);
+    btInsert(bt, 0);
+    btInsert(bt, 7);
+    btInsert(bt, 6);
+    btInsert(bt, 4);
+    printf("%d\n", bt->root->data);
+    printf("%d\n", bt->root->right->data);
+    printf("%d\n", bt->root->left->data);
+    printf("%d\n", bt->root->left->left->data);
+    printf("%d\n", bt->root->right->right->data);
+    printf("%d\n", bt->root->right->right->left->data);
+    printf("%d\n", bt->root->right->left->data);
 }
