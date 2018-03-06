@@ -16,4 +16,5 @@ dataType queuePop(Queue* queue) {
 
 int printQueue(Queue* queue) {
     queue->print(queue);
+    return 0;
 }

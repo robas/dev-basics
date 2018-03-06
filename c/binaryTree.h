@@ -19,6 +19,7 @@ typedef struct Node {
     dataType data;
     struct Node *left;
     struct Node *right;
+    struct Node *parent;
 } Node;
 
 typedef struct BinaryTree {
@@ -34,10 +35,18 @@ Node* btCreateNode(dataType);
 
 int btInsert(BinaryTree* list, dataType data);
 
+Node * isLeaf(BinaryTree * bt, dataType key);
+
+Node * getRightmostLeaf(Node * node);
+
+Node * getLeftmostLeaf(Node * node);
+
 int btInsertNode(Node *root, Node *newNode);
 
 int btRemoveKey(BinaryTree* list, dataType key);
 
-int btSearchKey(BinaryTree* list, dataType key);
+Node * btSearchKey(BinaryTree* list, dataType key);
+
+Node * btSearchKeyNode(Node * list, dataType key);
 
 #endif

@@ -16,4 +16,5 @@ dataType stackPop(Stack* stack) {
 
 int printStack(Stack* stack) {
     stack->print(stack);
+    return 0;
 }
