@@ -63,64 +63,63 @@ int main() {
     // printf("%c\n",stackPop(myStack));
     
     BinaryTree *bt = btCreateBinaryTree();
-    btInsert(bt, 2);
-    btInsert(bt, 5);
-    btInsert(bt, 0);
-    btInsert(bt, 1);
-    btInsert(bt, 7);
-    btInsert(bt, 6);
-    btInsert(bt, 4);
-    btInsert(bt, 9);
-    btInsert(bt, 10);
-    btInsert(bt, -1);
-    btInsert(bt, 8);
-        
-    isLeaf(bt, 5) ? printf("folha\n") : printf("nao folha\n");
-
-    printf("%d\n", getLeftmostLeaf(bt->root)->data);
-    printf("%d\n", getRightmostLeaf(bt->root)->data);
+    printf("%d\n", btInsert(bt, 2));
+    printf("%d\n", btInsert(bt, 5));
+    printf("%d\n", btInsert(bt, 0));
+    // btInsert(bt, 1);
+    // btInsert(bt, 7);
+    // btInsert(bt, 6);
+    printf("%d\n", btInsert(bt, 4));
+    printf("%d\n", btInsert(bt, 5));
+    // btInsert(bt, 9);
+    // btInsert(bt, 10);
+    // btInsert(bt, -1);
+    // btInsert(bt, 8);
+    int key;
+    Node *node = NULL;
     
-    int key = 7;
-    btRemoveKey(bt, key);
-    btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-
-    key = 9;
-    btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-    key = 8;
-    btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-    key = 10;
-    btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-    key = 6;
-    btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-    
-    key = 10;
-    btRemoveKey(bt, key);
-    btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-    key = 9;
-    btRemoveKey(bt, key);
-    btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-    key = 8;
-    btRemoveKey(bt, key);
-    btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-
-    key = 6;
-    btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-    // key = 7;
+    // isLeaf(bt, key) ? printf("%d é folha\n") : printf("%d não é folha\n");
+    // printf("LeftmostLeaf %d\n", getLeftmostLeaf(bt->root)->data);
+    // printf("RightmostLeaf %d\n", getRightmostLeaf(bt->root)->data);
+    // key = 9;
     // btRemoveKey(bt, key);
-    // btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-
+    // (node = btSearchKey(bt, key)) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
+    // printf("Right: %d \t Left: %d\n", node->right, node->left);
+    // btRemoveKey(bt, key);
+    
+    // key = 2;
+    // (node = btSearchKey(bt, key)) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
+    // btRemoveKey(bt, key);
+    // (node = btSearchKey(bt, key)) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
+    
+    // printf("Root Data %d\n", bt->root->data);
+    // printf("Left %d\n", bt->root->left);
+    // printf("Right %d\n", bt->root->right);
+    
+    // printf("Left Data %d\n", bt->root->left->data);
+    // printf("Left->left %d\n", bt->root->left->left);
+    // printf("Left->right %d\n", bt->root->left->right);
+    
+    // printf("Right Data %d\n", bt->root->right->data);
+    // printf("Right->left %d\n", bt->root->right->left);
+    // printf("Right->right %d\n", bt->root->right->right);
+    // printf("Right Data %d\n", bt->root->right->data);
+    
+    // printf("Left Data %d\n", bt->root->left->data);
+    // printf("Left %d\n", bt->root->left->left);
+    // printf("Right %d\n", bt->root->left->right);
     // key = 6;
-    // btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-
+    // (node = btSearchKey(bt, key)) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
+    // printf("Left %d\n", node->left->data);
+    // printf("Right %d\n", node->right->right->right->data);
+    
     // key = -1;
     // btRemoveKey(bt, key);
-    // btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-
     // key = 0;
-    // btRemoveKey(bt, key);
-    // btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
-
-    // key = 1;
-    // btSearchKey(bt, key) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
+    // (node = btSearchKey(bt, key)) ? printf("encontrei %d\n",key) : printf("não encontrei %d\n", key);
+    // printf("Left %d\n", node->left);
+    // printf("Right %d\n", node->right);
+    
+    
     return 0;
 }
