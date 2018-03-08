@@ -13,7 +13,10 @@
 #endif
 
 // Data structures
-typedef char dataType;
+#ifndef _DATATYPE_
+#define _DATATYPE_
+typedef int dataType;
+#endif
 
 typedef struct Node {
     dataType data;

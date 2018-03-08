@@ -13,41 +13,47 @@
 #endif
 
 // Data structures
-typedef int dataType;
 
-typedef struct Node {
+#ifndef _DATATYPE_
+#define _DATATYPE_
+typedef int dataType;
+#endif
+
+typedef struct BTNode {
     dataType data;
-    struct Node *left;
-    struct Node *right;
-} Node;
+    struct BTNode *left;
+    struct BTNode *right;
+} BTNode;
 
 typedef struct BinaryTree {
-    Node *root;
+    BTNode *root;
 } BinaryTree;
 
 // Functions
 BinaryTree* btCreateBinaryTree();
 
-Node ** btGetParentChild(BinaryTree *bt, dataType key);
+BTNode ** btGetParentChild(BinaryTree *bt, dataType key);
 
-Node ** btGetParentChildNode(Node *node, dataType key);
+BTNode ** btGetParentChildNode(BTNode *node, dataType key);
 
-Node* btCreateNode(dataType);
+BTNode* btCreateNode(dataType);
 
-int btInsert(BinaryTree* list, dataType data);
+int btInsert(BinaryTree* bt, dataType data);
 
-Node * isLeaf(BinaryTree * bt, dataType key);
+BTNode * isLeaf(BinaryTree * bt, dataType key);
 
-Node * getRightmostLeaf(Node * node);
+BTNode * getRightmostLeaf(BTNode * node);
 
-Node * getLeftmostLeaf(Node * node);
+BTNode * getLeftmostLeaf(BTNode * node);
 
-int btInsertNode(Node *root, Node *newNode);
+int btInsertNode(BTNode *root, BTNode *newNode);
 
-int btRemoveKey(BinaryTree* list, dataType key);
+int btRemoveKey(BinaryTree* bt, dataType key);
 
-Node * btSearchKey(BinaryTree* list, dataType key);
+BTNode * btSearchKey(BinaryTree* bt, dataType key);
 
-Node * btSearchKeyNode(Node * list, dataType key);
+BTNode * btSearchKeyNode(BTNode * bt, dataType key);
+
+void btPrint(BinaryTree *bt);
 
 #endif

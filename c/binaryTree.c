@@ -1,4 +1,6 @@
 #include "binaryTree.h"
+#include "queue.h"
+#include <limits.h>
 
 /**
  * Creates a new mallocated binary tree
@@ -14,8 +16,8 @@ BinaryTree* btCreateBinaryTree() {
  * Creates a new mallocated tree node with the provided key
  * Returns the newly created node
  */
-Node *btCreateNode(dataType data) {
-    Node *newNode = malloc(sizeof(Node));
+BTNode *btCreateNode(dataType data) {
+    BTNode *newNode = malloc(sizeof(BTNode));
     newNode->data = data;
     newNode->left = NULL;
     newNode->right = NULL;
@@ -29,9 +31,8 @@ Node *btCreateNode(dataType data) {
  *          -1: the key already exists
  */
 int btInsert(BinaryTree* bt, dataType data) {
-    Node *newNode = btCreateNode(data);
+    BTNode *newNode = btCreateNode(data);
     if (!bt->root) {
-        printf("inserting root\n");
         bt->root = newNode;
         return 0;
     } else {
@@ -39,25 +40,20 @@ int btInsert(BinaryTree* bt, dataType data) {
     }
 }
 
-int btInsertNode(Node *root, Node *newNode) {
+int btInsertNode(BTNode *root, BTNode *newNode) {
     if (newNode->data < root->data && !root->left) {
-        printf("inserting left\n");
         root->left = newNode;
         return 0;
     } else if (newNode->data > root->data && !root->right) {
-        printf("inserting right\n");
         root->right = newNode;
         return 0;
     }
     
     if (newNode->data < root->data) {
-        printf("menor, chamando no left\n");
         return btInsertNode(root->left, newNode);
     } else if (newNode->data > root->data) {
-        printf("maior, chamando no right\n");
         return btInsertNode(root->right, newNode);
     } else {
-        printf("iguaaaal\n");
         return -1;
     }
 }
@@ -68,8 +64,8 @@ int btInsertNode(Node *root, Node *newNode) {
  *          NULL: the node is not a leaf
  *          Pointer to the node: if the node IS a leaf
  */
-Node * isLeaf(BinaryTree * bt, dataType key) {
-    Node * target = NULL;
+BTNode * isLeaf(BinaryTree * bt, dataType key) {
+    BTNode * target = NULL;
     if ((target = btSearchKey(bt, key)) == NULL) {
         return NULL;
     } else {
@@ -83,7 +79,7 @@ Node * isLeaf(BinaryTree * bt, dataType key) {
  *          NULL: if the tree is empty or the key was not found
  *          Pointer to the intended node's parent ->left or ->right depending if the intended node is a left or right child
  */
-Node ** btGetParentChild(BinaryTree *bt, dataType key) {
+BTNode ** btGetParentChild(BinaryTree *bt, dataType key) {
     if (bt->root) {
         if (bt->root->data == key) {
             return &bt->root;
@@ -95,7 +91,7 @@ Node ** btGetParentChild(BinaryTree *bt, dataType key) {
     }
 }
 
-Node ** btGetParentChildNode(Node *node, dataType key) {
+BTNode ** btGetParentChildNode(BTNode *node, dataType key) {
     if (node->left->data == key) {
         return &node->left;
     } else if (node->right->data == key) {
@@ -116,8 +112,8 @@ Node ** btGetParentChildNode(Node *node, dataType key) {
  *          -1: the provided key does not exist
  */
 int btRemoveKey(BinaryTree* bt, dataType key) {
-    Node * target = NULL;
-    Node ** targetParentChild = NULL;
+    BTNode * target = NULL;
+    BTNode ** targetParentChild = NULL;
     int targetIsNotRoot = TRUE;
 
     // Key does not exist in the tree
@@ -144,8 +140,8 @@ int btRemoveKey(BinaryTree* bt, dataType key) {
     } else {
         // Improvement: Here fits some optimization on the choose between the "leftmost from right" or "rightmost from left" node to keep the tree well balanced
         //              Currently using the replacement node as the leftmost leaf from right
-        Node * replacement = getLeftmostLeaf(target->right);
-        Node ** replacementParentChild = btGetParentChild(bt, replacement->data);
+        BTNode * replacement = getLeftmostLeaf(target->right);
+        BTNode ** replacementParentChild = btGetParentChild(bt, replacement->data);
 
         // If replacement is the target left or right child, it must be NULL
         replacement->left = (target->left == replacement) ? NULL : target->left;
@@ -166,7 +162,7 @@ int btRemoveKey(BinaryTree* bt, dataType key) {
  *          NULL: the key is empty or was not found
  *          Pointer to the intended node
  */
-Node * btSearchKey(BinaryTree* bt, dataType key) {
+BTNode * btSearchKey(BinaryTree* bt, dataType key) {
     if (!bt->root) {
         return NULL;
     } else {
@@ -174,7 +170,7 @@ Node * btSearchKey(BinaryTree* bt, dataType key) {
     }
 }
 
-Node * btSearchKeyNode(Node *node, dataType key) {
+BTNode * btSearchKeyNode(BTNode *node, dataType key) {
     if (node->data == key) {
         return node;
     } else if (key < node->data) {
@@ -186,12 +182,54 @@ Node * btSearchKeyNode(Node *node, dataType key) {
     }
 }
 
-
-Node * getLeftmostLeaf(Node * node) {
+/**
+ * Searchs the leftmost leaf of the provided node
+ * Returns:
+ *          Pointer to the leftmost leaf
+ */
+BTNode * getLeftmostLeaf(BTNode * node) {
     return (!node->left) ? node : getLeftmostLeaf(node->left);
 }
 
-Node * getRightmostLeaf(Node * node) {
+/**
+ * Searchs the rightmost leaf of the provided node
+ * Returns:
+ *          Pointer to the rightmost leaf
+ */
+BTNode * getRightmostLeaf(BTNode * node) {
     return (!node->right) ? node : getRightmostLeaf(node->right);
+}
+
+/**
+ * Prints the tree by levels
+ */
+void btPrint(BinaryTree *bt) {
+    Queue *nodes = createQueue();
+    dataType currentValue;
+    BTNode *node;
+
+    if (!bt->root) {
+        printf("Empty Tree\n");
+        return;
+    }
+
+    node = bt->root;
+    queuePut(nodes, node->data);
+    queuePut(nodes, INT_MIN);
+    
+    while ((currentValue = queuePop(nodes)) != INT_MAX) {        
+        if (currentValue == INT_MIN) {
+            printf("\n");
+            if (queueIsEmpty(nodes)) {
+                queuePut(nodes, currentValue);
+            }
+        } else {
+            printf("%d ", currentValue);
+            node = btSearchKey(bt, currentValue);
+            if (node->left) {queuePut(nodes, node->left->data);}
+            if (node->right) {queuePut(nodes, node->right->data);}
+        }
+    }
+    return;
 }
 

@@ -63,21 +63,23 @@ int main() {
     // printf("%c\n",stackPop(myStack));
     
     BinaryTree *bt = btCreateBinaryTree();
-    printf("%d\n", btInsert(bt, 2));
-    printf("%d\n", btInsert(bt, 5));
-    printf("%d\n", btInsert(bt, 0));
-    // btInsert(bt, 1);
-    // btInsert(bt, 7);
-    // btInsert(bt, 6);
-    printf("%d\n", btInsert(bt, 4));
-    printf("%d\n", btInsert(bt, 5));
-    // btInsert(bt, 9);
-    // btInsert(bt, 10);
-    // btInsert(bt, -1);
-    // btInsert(bt, 8);
+    btInsert(bt, 2);
+    btInsert(bt, 5);
+    btInsert(bt, 0);
+    btInsert(bt, 1);
+    btInsert(bt, 7);
+    btInsert(bt, 6);
+    btInsert(bt, 4);
+    btInsert(bt, 5);
+    btInsert(bt, 9);
+    btInsert(bt, 10);
+    btInsert(bt, -1);
+    btInsert(bt, 8);
     int key;
-    Node *node = NULL;
+    BTNode *node = NULL;
     
+
+    btPrint(bt);
     // isLeaf(bt, key) ? printf("%d é folha\n") : printf("%d não é folha\n");
     // printf("LeftmostLeaf %d\n", getLeftmostLeaf(bt->root)->data);
     // printf("RightmostLeaf %d\n", getRightmostLeaf(bt->root)->data);

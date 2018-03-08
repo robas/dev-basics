@@ -1,4 +1,5 @@
 #include "linkedList.h"
+#include <limits.h>
 
 LinkedList* createLinkedList() {
     LinkedList* newList = malloc(sizeof(LinkedList));
@@ -41,7 +42,7 @@ int listLength(LinkedList* list) {
 // Returns the data at the specified index, considering an 1 based array
 dataType getAtIndex(LinkedList *list, int index) {
     if (index > list->length || index < 1)
-        return '\0';
+        return INT_MAX;
 
     Node *iterator = list->head;
     for (int i = 1; i < index && iterator->next; i++) {

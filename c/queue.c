@@ -18,3 +18,7 @@ int printQueue(Queue* queue) {
     queue->print(queue);
     return 0;
 }
+
+int queueIsEmpty(Queue *queue) {
+    return listLength(queue);
+}

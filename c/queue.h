@@ -13,4 +13,6 @@ dataType queuePop(Queue* queue);
 
 int printQueue(Queue* queue);
 
+int queueIsEmpty(Queue *queue);
+
 #endif
