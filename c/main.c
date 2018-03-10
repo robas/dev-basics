@@ -1,10 +1,72 @@
-#include "binaryTree.h"
+#include "linkedList.h"
+
+struct lala {
+    int key;
+    char letra;
+    int idade;
+    int uptime;
+};
+
+
+int compare (void *key, void *data) {
+    char *val1 = key;
+    struct lala *val2 = data;
+    
+    return *val1 == val2->key;
+}
 
 int main() {
-    // printf("Initializing linkedList\n");
-    // linkedList* myList = createLinkedList();
-    // printf("%d\n", listLength(myList));
-    // insertAtStart(myList, 'b');
+    printf("Initializing linkedList\n");
+    // LinkedList* myList = createLinkedList(compare);
+    LinkedList* myList = createLinkedList(compare);
+    printf("%d\n", listLength(myList));
+
+    struct lala *no1 = malloc(sizeof(struct lala));
+    no1->key = 'k';
+    no1->letra = 'r';
+    no1->idade = 32;
+    no1->uptime = 100432;
+    
+    struct lala *no2 = malloc(sizeof(struct lala));
+    no2->key = 'a';
+    no2->letra = 'y';
+    no2->idade = 19;
+    no2->uptime = 919191;
+    
+    struct lala *no3 = malloc(sizeof(struct lala));
+    no3->key = 'b';
+    no3->letra = 'z';
+    no3->idade = 23;
+    no3->uptime = 666;
+    // char id = 'k';
+    // void *vid = &id;
+    
+    // if (myList->compare(vid, node->data) ) {
+    //     printf("\nieiii\n");
+    // }
+    
+    char b = 'k';
+    char *a = &b;
+    
+    insertAtStart(myList, no1);
+    printf("%d\n", listLength(myList));
+    
+    insertAtEnd(myList, no2);
+    printf("%d\n", listLength(myList));
+    
+    searchKey(myList, a) ? printf("encontrou %c\n", *a) : printf("NAO encontrou %c\n", *a);
+    
+    removeKey(myList, a);
+    
+    searchKey(myList, a) ? printf("encontrou %c\n", *a) : printf("NAO encontrou %c\n", *a);
+    
+    insertAtIndex(myList, no3, 2);
+    
+    *a = 'b';
+    searchKey(myList, a) ? printf("encontrou %c\n", *a) : printf("NAO encontrou %c\n", *a);
+    
+
+    
     // printf("%d\n", listLength(myList));
     // insertAtStart(myList, 'a');
     // printf("%d\n", listLength(myList));
@@ -62,24 +124,24 @@ int main() {
     // printf("%c\n",stackPop(myStack));
     // printf("%c\n",stackPop(myStack));
     
-    BinaryTree *bt = btCreateBinaryTree();
-    btInsert(bt, 2);
-    btInsert(bt, 5);
-    btInsert(bt, 0);
-    btInsert(bt, 1);
-    btInsert(bt, 7);
-    btInsert(bt, 6);
-    btInsert(bt, 4);
-    btInsert(bt, 5);
-    btInsert(bt, 9);
-    btInsert(bt, 10);
-    btInsert(bt, -1);
-    btInsert(bt, 8);
-    int key;
-    BTNode *node = NULL;
+    // BinaryTree *bt = btCreateBinaryTree();
+    // btInsert(bt, 2);
+    // btInsert(bt, 5);
+    // btInsert(bt, 0);
+    // btInsert(bt, 1);
+    // btInsert(bt, 7);
+    // btInsert(bt, 6);
+    // btInsert(bt, 4);
+    // btInsert(bt, 5);
+    // btInsert(bt, 9);
+    // btInsert(bt, 10);
+    // btInsert(bt, -1);
+    // btInsert(bt, 8);
+    // int key;
+    // BTNode *node = NULL;
     
 
-    btPrint(bt);
+    // btPrint(bt);
     // isLeaf(bt, key) ? printf("%d é folha\n") : printf("%d não é folha\n");
     // printf("LeftmostLeaf %d\n", getLeftmostLeaf(bt->root)->data);
     // printf("RightmostLeaf %d\n", getRightmostLeaf(bt->root)->data);

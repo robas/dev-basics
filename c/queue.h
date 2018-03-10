@@ -7,9 +7,9 @@ typedef LinkedList Queue;
 
 Queue* createQueue();
 
-void queuePut(Queue* queue, dataType data);
+void queuePut(Queue* queue, Key key, void * data);
 
-dataType queuePop(Queue* queue);
+void * queuePop(Queue* queue);
 
 int printQueue(Queue* queue);
 

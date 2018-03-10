@@ -14,8 +14,8 @@
 
 // Data structures
 
-#ifndef _DATATYPE_
-#define _DATATYPE_
+#ifndef _KEYTYPE_
+#define _KEYTYPE_
 typedef int dataType;
 #endif
 

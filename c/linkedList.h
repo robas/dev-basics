@@ -12,45 +12,41 @@
 #define FALSE 0
 #endif
 
-// Data structures
-#ifndef _DATATYPE_
-#define _DATATYPE_
-typedef int dataType;
-#endif
-
 typedef struct Node {
-    dataType data;
+    void *data;
     struct Node *next;
 } Node;
 
 typedef struct LinkedList {
     Node *head;
     int length;
-    int (*print)(struct LinkedList *list);
+    int (*print) (struct LinkedList *list);
+    int (*equals) (void *key, void *value2);
 } LinkedList;
 
-// Functions
-LinkedList* createLinkedList();
+LinkedList* createLinkedList(int (*equals)(void *key, void *value2));
 
-Node* createNode(dataType);
+Node* createNode(void *data);
 
-int printList(LinkedList* list);
+// int printList(LinkedList* list);
+
+int defaultEquals (void *key, void *data);
 
 int listLength(LinkedList* list);
 
-dataType getAtIndex(LinkedList* list, int index);
+void * getAtIndex(LinkedList* list, int index);
 
-int insertAtStart(LinkedList* list, dataType data);
+int insertAtStart(LinkedList* list, void *data);
 
-int insertAtEnd(LinkedList* list, dataType data);
+int insertAtEnd(LinkedList* list, void *data);
 
-int insertAtIndex(LinkedList* list, dataType data, int index);
+int insertAtIndex(LinkedList* list, void *data, int index);
 
-int removeKey(LinkedList* list, dataType key);
+int removeKey(LinkedList* list, void *key);
 
 int removeAtIndex(LinkedList* list, int index);
 
-int searchKey(LinkedList* list, dataType key);
+int searchKey(LinkedList* list, void *key);
 
 int reverseList(LinkedList* list);
 

@@ -7,10 +7,12 @@ typedef LinkedList Stack;
 
 Stack* createStack();
 
-void stackPut(Stack* stack, dataType data);
+void stackPut(Stack* stack, Key key, void * data);
 
-dataType stackPop(Stack* stack);
+void * stackPop(Stack* stack);
 
 int printStack(Stack* stack);
+
+int stackIsEmpty(Queue *queue);
 
 #endif
