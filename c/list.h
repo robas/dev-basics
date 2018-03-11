@@ -20,7 +20,7 @@ typedef struct Node {
 typedef struct List {
     Node *head;
     int length;
-    int (*printItem) (void *value2);
+    void (*printItem) (void *value2);
     int (*equals) (void *key, void *value2);
 } List;
 
