@@ -1,4 +1,4 @@
-#include "linkedList.h"
+#include "list.h"
 
 /**
  * Creates a new Linked List, setting its attributes and 'methods' (function pointers)
@@ -7,12 +7,12 @@
  * The default 'Equals' function that assumes the key is an integer
  * Returns: a pointer to the created Linked List
  */
-LinkedList* createLinkedList(int (*customEqualsFunction) (void *value1, void *value2)) {
-    LinkedList* newList = malloc(sizeof(LinkedList));
+List* createList(int (*customEqualsFunction) (void *value1, void *value2), void (*customPrintItem) (void *data)) {
+    List* newList = malloc(sizeof(List));
     newList->head = NULL;
     newList->length = 0;
-    
     newList->equals = customEqualsFunction ? customEqualsFunction : &defaultEquals;
+    newList->printItem = customPrintItem ? customPrintItem : &defaultPrintItem;
     return newList;
 }
 
@@ -22,10 +22,42 @@ LinkedList* createLinkedList(int (*customEqualsFunction) (void *value1, void *va
  *          TRUE: if the values are equal
  *          FALSE: if the values are not equal
  */
-int defaultEquals (void *_key, void *data) {
+int defaultEquals(void *_key, void *data) {
     int *value = data;
     int *key = _key;
-    return (*key == *value) ? TRUE : FALSE;
+    return *key == *value;
+}
+
+/**
+ * Prints a list item assuming the item is an integer
+ */
+void defaultPrintItem(void *data) {
+    if (data) {
+        int *value = data;
+        printf("%d ", *value);
+    }
+    return;
+}
+
+/**
+ * Prints the provided list
+ */
+void printList(List* list) {
+    if (!list) {
+        printf("The list is empty\n");
+        return;
+    }
+    if (!list->head) {
+        printf("The list is empty\n");
+        return;
+    }
+    
+    Node* iterator = list->head;
+    for (Node* iterator = list->head; iterator; iterator = iterator->next) {
+        list->printItem(iterator->data);
+    }
+    printf("\n");
+    return;
 }
 
 /**
@@ -35,6 +67,8 @@ int defaultEquals (void *_key, void *data) {
  *          On failure:  a NULL pointer
  */
 Node *createNode(void *data) {
+    if (!data) return NULL;
+    
     Node *newNode = malloc(sizeof(Node));
     if (newNode) {
         newNode->data = data;
@@ -45,12 +79,12 @@ Node *createNode(void *data) {
 
 
 /**
- * Calculates the list length, not very usefull, since the data structure has a 'length' field
+ * Calculates the list length, not very usefull, since the List data structure has a 'length' field
  * Returns:
  *          On success: the number (int) of items in the list
  *          On failure: -1
  */
-int listLength(LinkedList* list) {
+int listLength(List* list) {
     if (!list) return -1;
     
     int i = 0;
@@ -66,8 +100,9 @@ int listLength(LinkedList* list) {
  *          On success: a pointer to the Node at the provided index
  *          On failure: a NULL pointer
  */
-void * getAtIndex(LinkedList *list, int index) {
+void * getAtIndex(List *list, int index) {
     if (!list) return NULL;
+    
     if (index > list->length || index < 1) {
         return NULL;
     } else {
@@ -88,8 +123,8 @@ void * getAtIndex(LinkedList *list, int index) {
  *          On success: TRUE
  *          On failure: FALSE 
  */ 
-int insertAtStart(LinkedList* list, void *data) {
-    if (!list) return FALSE;
+int insertAtStart(List* list, void *data) {
+    if (!list || !data) return FALSE;
     
     Node *newNode = createNode(data);
     if (!newNode) {
@@ -110,8 +145,8 @@ int insertAtStart(LinkedList* list, void *data) {
  *          On success: TRUE
  *          On failure: FALSE
  */
-int insertAtEnd(LinkedList* list, void *data) {
-    if (!list) return FALSE;
+int insertAtEnd(List* list, void *data) {
+    if (!list || !data) return FALSE;
     
     Node *newNode = createNode(data);
     if (!newNode) {
@@ -141,8 +176,8 @@ int insertAtEnd(LinkedList* list, void *data) {
  *          On success: TRUE
  *          On failure: FALSE
  */
-int insertAtIndex(LinkedList* list, void *data, int index) {
-    if (!list) return FALSE;
+int insertAtIndex(List* list, void *data, int index) {
+    if (!list || !data) return FALSE;
     
     if (index > list->length+1 || index < 1)
         return FALSE;
@@ -171,8 +206,8 @@ int insertAtIndex(LinkedList* list, void *data, int index) {
  *          On success: TRUE
  *          On failure (did not find the key): FALSE
  */
-int removeKey(LinkedList *list, void *key) {
-    if (!list) return FALSE;
+int removeKey(List *list, void *key) {
+    if (!list || !key) return FALSE;
     
     if (list->equals(key, list->head->data)) {
         Node *temp = list->head;
@@ -203,7 +238,7 @@ int removeKey(LinkedList *list, void *key) {
  *          On success: TRUE
  *          On failure (invalid index): FALSE
  */
-int removeAtIndex(LinkedList *list, int index) {
+int removeAtIndex(List *list, int index) {
     if (!list) return FALSE;
     
     if (index < 1 || index > list->length) {
@@ -232,8 +267,8 @@ int removeAtIndex(LinkedList *list, int index) {
  *          On success (the key exists): TRUE
  *          On failure (the does not exists): FALSE
  */
-int searchKey(LinkedList *list, void *key) {
-    if (!list) return FALSE;
+int searchKey(List *list, void *key) {
+    if (!list || !key) return FALSE;
     
     for (Node *iterator = list->head; iterator; iterator = iterator->next) {
         if (list->equals(key, iterator->data))
@@ -248,7 +283,7 @@ int searchKey(LinkedList *list, void *key) {
  *          On success: TRUE
  *          On failure: FALSE
  */
-int reverseList(LinkedList *list) {
+int reverseList(List *list) {
     if (!list) return FALSE;
     
     if (list->length <= 1)

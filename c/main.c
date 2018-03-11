@@ -1,4 +1,4 @@
-#include "linkedList.h"
+#include "list.h"
 
 struct lala {
     int key;
@@ -17,24 +17,24 @@ int compare (void *key, void *data) {
 
 int main() {
     printf("Initializing linkedList\n");
-    // LinkedList* myList = createLinkedList(compare);
-    LinkedList* myList = createLinkedList(compare);
+    // List* myList = createList(compare);
+    List* myList = createList(NULL, NULL);
     printf("%d\n", listLength(myList));
 
     struct lala *no1 = malloc(sizeof(struct lala));
-    no1->key = 'k';
+    no1->key = 1;
     no1->letra = 'r';
     no1->idade = 32;
     no1->uptime = 100432;
     
     struct lala *no2 = malloc(sizeof(struct lala));
-    no2->key = 'a';
+    no2->key = 2;
     no2->letra = 'y';
     no2->idade = 19;
     no2->uptime = 919191;
     
     struct lala *no3 = malloc(sizeof(struct lala));
-    no3->key = 'b';
+    no3->key = 3;
     no3->letra = 'z';
     no3->idade = 23;
     no3->uptime = 666;
@@ -45,25 +45,26 @@ int main() {
     //     printf("\nieiii\n");
     // }
     
-    char b = 'k';
-    char *a = &b;
+    int b = 1;
+    int *a = &b;
     
     insertAtStart(myList, no1);
     printf("%d\n", listLength(myList));
     
     insertAtEnd(myList, no2);
     printf("%d\n", listLength(myList));
-    
-    searchKey(myList, a) ? printf("encontrou %c\n", *a) : printf("NAO encontrou %c\n", *a);
+    printList(myList);
+    searchKey(myList, a) ? printf("encontrou %d\n", *a) : printf("NAO encontrou %d\n", *a);
     
     removeKey(myList, a);
     
-    searchKey(myList, a) ? printf("encontrou %c\n", *a) : printf("NAO encontrou %c\n", *a);
+    searchKey(myList, a) ? printf("encontrou %d\n", *a) : printf("NAO encontrou %d\n", *a);
     
     insertAtIndex(myList, no3, 2);
+    printList(myList);
     
-    *a = 'b';
-    searchKey(myList, a) ? printf("encontrou %c\n", *a) : printf("NAO encontrou %c\n", *a);
+    *a = 2;
+    searchKey(myList, a) ? printf("encontrou %d\n", *a) : printf("NAO encontrou %d\n", *a);
     
 
     

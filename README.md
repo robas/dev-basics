@@ -4,7 +4,7 @@
 My objective here is to recall some basic college knowledge by writing basic algorithms and data structures in C language.
 
 Data structures:
-* Linked List: Have to remake it, so it works with a Key and a pointer to a generic struct, so it is possible to cast it to whatever we like;
+* Linked List
 * Stack
 * Queue
 * Binary Tree
