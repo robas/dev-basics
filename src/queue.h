@@ -9,7 +9,7 @@ Queue* createQueue(int (*equals)(void* key, void* value2), void (*customPrintIte
 
 int queuePut(Queue* queue, void *data);
 
-void * queuePop(Queue* queue);
+void *queuePop(Queue *queue);
 
 void printQueue(Queue* queue);
 

@@ -1,20 +1,19 @@
 #include "stack.h"
 
-Stack* createStack() {
-    return createLinkedList();
+Stack* createStack(int (*equals)(void* key, void* value2), void (*customPrintItem) (void* data)) {
+    return createList(equals, customPrintItem);
 }
 
-void stackPut(Stack* stack, dataType data) {
-    insertAtStart(stack, data);
+int stackPut(Stack* stack, void *data) {
+    return insertAtStart(stack, data);
 }
 
-dataType stackPop(Stack* stack) {
-    dataType ret = getAtIndex(stack, 1);
+void *stackPop(Stack* stack) {
+    void *data = getAtIndex(stack, 1);
     removeAtIndex(stack, 1);
-    return ret;
+    return data;
 }
 
-int printStack(Stack* stack) {
-    stack->print(stack);
-    return 0;
+int stackIsEmpty(Stack *stack) {
+    return stack->length == 0;
 }

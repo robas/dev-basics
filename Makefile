@@ -50,8 +50,12 @@ list: main.o list.o
 	${CC} main.o list.o -o ${EXE}
 
 queue: main.o queue.o list.o
-	@echo "Building List..."
+	@echo "Building Queue..."
 	${CC} main.o queue.o list.o -o ${EXE}
+
+stack: main.o stack.o list.o
+	@echo "Building Stack..."
+	${CC} main.o stack.o list.o -o ${EXE}
 
 list-test: list-test.o list.o
 	@echo "Building Test..."
