@@ -1,17 +1,17 @@
-#ifndef _QUEUE_H_
-#define _QUEUE_H_
+#ifndef QUEUE_H
+#define QUEUE_H
 
-#include "linkedList.h"
+#include "list.h"
 
-typedef LinkedList Queue;
+typedef List Queue;
 
-Queue* createQueue();
+Queue* createQueue(int (*equals)(void* key, void* value2), void (*customPrintItem) (void* data));
 
-void queuePut(Queue* queue, Key key, void * data);
+int queuePut(Queue* queue, void *data);
 
 void * queuePop(Queue* queue);
 
-int printQueue(Queue* queue);
+void printQueue(Queue* queue);
 
 int queueIsEmpty(Queue *queue);
 
