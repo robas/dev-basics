@@ -114,7 +114,7 @@ BTNode ** btGetParentChildNode(BTNode *node, dataType key) {
 int btRemoveKey(BinaryTree* bt, dataType key) {
     BTNode * target = NULL;
     BTNode ** targetParentChild = NULL;
-    int targetIsNotRoot = TRUE;
+    int targetIsNotRoot = true;
 
     // Key does not exist in the tree
     if ((target = btSearchKey(bt, key)) == NULL) {
@@ -122,7 +122,7 @@ int btRemoveKey(BinaryTree* bt, dataType key) {
     }
     
     // targetParentChild is a pointer to the target's parent ->left or ->right depending if the target is a left or right child
-    targetIsNotRoot = (targetParentChild = btGetParentChild(bt, key)) != NULL ? TRUE : FALSE;
+    targetIsNotRoot = (targetParentChild = btGetParentChild(bt, key)) != NULL ? true : false;
 
     // Key is a leaf node
     if (!target->left && !target->right) {

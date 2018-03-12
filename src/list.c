@@ -19,8 +19,8 @@ List* createList(int (*customEqualsFunction) (void *value1, void *value2), void 
 /**
  * Compares two values, assuming they are both integers
  * Returns:
- *          TRUE: if the values are equal
- *          FALSE: if the values are not equal
+ *          true: if the values are equal
+ *          false: if the values are not equal
  */
 int defaultEquals(void *_key, void *data) {
     int *value = data;
@@ -120,20 +120,20 @@ void * getAtIndex(List *list, int index) {
  * All the data intended to be inserted into the list is referenced by
  * a pointer to void, since we don't know the data type
  * Returns: 
- *          On success: TRUE
- *          On failure: FALSE 
+ *          On success: true
+ *          On failure: false 
  */ 
 int insertAtStart(List* list, void *data) {
-    if (!list || !data) return FALSE;
+    if (!list || !data) return false;
     
     Node *newNode = createNode(data);
     if (!newNode) {
-        return FALSE;
+        return false;
     } else {
         newNode->next = list->head;
         list->head = newNode;
         list->length++;
-        return TRUE;
+        return true;
     }
 }
 
@@ -142,15 +142,15 @@ int insertAtStart(List* list, void *data) {
  * All the data intended to be inserted into the list is referenced by
  * a pointer to void, since we don't know the data type
  * Returns: 
- *          On success: TRUE
- *          On failure: FALSE
+ *          On success: true
+ *          On failure: false
  */
 int insertAtEnd(List* list, void *data) {
-    if (!list || !data) return FALSE;
+    if (!list || !data) return false;
     
     Node *newNode = createNode(data);
     if (!newNode) {
-        return FALSE;
+        return false;
     } else {
         if (!list->head) {
             list->head = newNode;
@@ -163,7 +163,7 @@ int insertAtEnd(List* list, void *data) {
             iterator->next = newNode;
         }
         list->length++;
-        return TRUE;
+        return true;
     }
 }
 
@@ -173,14 +173,14 @@ int insertAtEnd(List* list, void *data) {
  * All the data intended to be inserted into the list is referenced by
  * a pointer to void, since we don't know the data type
  * Returns: 
- *          On success: TRUE
- *          On failure: FALSE
+ *          On success: true
+ *          On failure: false
  */
 int insertAtIndex(List* list, void *data, int index) {
-    if (!list || !data) return FALSE;
+    if (!list || !data) return false;
     
     if (index > list->length+1 || index < 1)
-        return FALSE;
+        return false;
 
     Node *newNode = createNode(data);
     if (index == 1) {
@@ -196,25 +196,25 @@ int insertAtIndex(List* list, void *data, int index) {
         iterator->next = newNode;
     }
     list->length++;
-    return TRUE;
+    return true;
 }
 
 /**
  * Deletes the first entry which key corresponds to the provided key
  * The key is referenced by a pointer to void, since we don't know the data type
  * Returns: 
- *          On success: TRUE
- *          On failure (did not find the key): FALSE
+ *          On success: true
+ *          On failure (did not find the key): false
  */
 int removeKey(List *list, void *key) {
-    if (!list || !key) return FALSE;
+    if (!list || !key) return false;
     
     if (list->equals(key, list->head->data)) {
         Node *temp = list->head;
         list->head = list->head->next;
         free(temp);
         list->length--;
-        return TRUE;
+        return true;
     } else {
         Node *iterator = list->head;
         while (iterator->next) {
@@ -223,26 +223,26 @@ int removeKey(List *list, void *key) {
                 iterator->next = iterator->next->next;
                 free(temp);
                 list->length--;
-                return TRUE;
+                return true;
             } else {
                 iterator = iterator->next;
             }
         }
     }
-    return FALSE;
+    return false;
 }
 
 /**
  * Deletes the entry at the provided key, considering an 1 based array
  * Returns: 
- *          On success: TRUE
- *          On failure (invalid index): FALSE
+ *          On success: true
+ *          On failure (invalid index): false
  */
 int removeAtIndex(List *list, int index) {
-    if (!list) return FALSE;
+    if (!list) return false;
     
     if (index < 1 || index > list->length) {
-        return FALSE;
+        return false;
     } else {
         if (index == 1) {
             Node *temp = list->head;
@@ -257,37 +257,37 @@ int removeAtIndex(List *list, int index) {
             free(temp);
         }
         list->length--;
-        return TRUE;
+        return true;
     }
 }
 
 /**
  * Searches for the provided key into the list
  * Returns:
- *          On success (the key exists): TRUE
- *          On failure (the does not exists): FALSE
+ *          On success (the key exists): true
+ *          On failure (the does not exists): false
  */
 int searchKey(List *list, void *key) {
-    if (!list || !key) return FALSE;
+    if (!list || !key) return false;
     
     for (Node *iterator = list->head; iterator; iterator = iterator->next) {
         if (list->equals(key, iterator->data))
-            return TRUE;
+            return true;
     }
-    return FALSE;
+    return false;
 }
 
 /**
  * Reverses the list elements
  * Returns:
- *          On success: TRUE
- *          On failure: FALSE
+ *          On success: true
+ *          On failure: false
  */
 int reverseList(List *list) {
-    if (!list) return FALSE;
+    if (!list) return false;
     
     if (list->length <= 1)
-        return TRUE;
+        return true;
 
     Node *p1 = list->head;
     Node *p2 = p1->next;
@@ -301,5 +301,5 @@ int reverseList(List *list) {
     }
     p2->next = p1;
     list->head = p2;
-    return TRUE;
+    return true;
 }

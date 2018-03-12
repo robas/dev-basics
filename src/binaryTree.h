@@ -1,18 +1,9 @@
-#ifndef _BINARYTREE_H_
-#define _BINARYTREE_H_
+#ifndef BINARYTREE_H
+#define BINARYTREE_H
 
 #include <stdlib.h>
 #include <stdio.h>
-
-#ifndef TRUE
-#define TRUE 1
-#endif
-
-#ifndef FALSE
-#define FALSE 0
-#endif
-
-// Data structures
+#include <stdbool.h>
 
 #ifndef _KEYTYPE_
 #define _KEYTYPE_
