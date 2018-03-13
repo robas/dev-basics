@@ -7,11 +7,11 @@
  * The default 'Equals' function that assumes the key is an integer
  * Returns: a pointer to the created Linked List
  */
-List* createList(int (*customEqualsFunction) (void *value1, void *value2), void (*customPrintItem) (void *data)) {
+List* createList(int (*customEquals) (void *key, void *data), void (*customPrintItem) (void *data)) {
     List* newList = malloc(sizeof(List));
     newList->head = NULL;
     newList->length = 0;
-    newList->equals = customEqualsFunction ? customEqualsFunction : &defaultEquals;
+    newList->equals = customEquals ? customEquals : &defaultEquals;
     newList->printItem = customPrintItem ? customPrintItem : &defaultPrintItem;
     return newList;
 }

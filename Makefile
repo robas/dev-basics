@@ -57,6 +57,10 @@ stack: main.o stack.o list.o
 	@echo "Building Stack..."
 	${CC} main.o stack.o list.o -o ${EXE}
 
+binary-tree: main.o binaryTree.o list.o
+	@echo "Building Binary Tree..."
+	${CC} main.o binaryTree.o list.o -o ${EXE}
+
 list-test: list-test.o list.o
 	@echo "Building Test..."
 	${CC} list-test.o list.o -o ${TEST_OUTPUT}

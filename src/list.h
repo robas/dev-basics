@@ -13,11 +13,11 @@ typedef struct Node {
 typedef struct List {
     Node *head;
     int length;
-    void (*printItem) (void *value2);
-    int (*equals) (void *key, void *value2);
+    void (*printItem) (void *data);
+    int (*equals) (void *key, void *data);
 } List;
 
-List* createList(int (*equals)(void* key, void* value2), void (*customPrintItem) (void* data));
+List* createList(int (*customEquals)(void* key, void* data), void (*customPrintItem) (void* data));
 
 Node* createNode(void* data);
 

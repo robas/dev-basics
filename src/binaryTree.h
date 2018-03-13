@@ -5,33 +5,34 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#ifndef _KEYTYPE_
-#define _KEYTYPE_
-typedef int dataType;
-#endif
-
 typedef struct BTNode {
-    dataType data;
+    void *data;
     struct BTNode *left;
     struct BTNode *right;
 } BTNode;
 
 typedef struct BinaryTree {
     BTNode *root;
+    void (*printItem) (void *data);
+    int (*compare) (void *key, void *data);
 } BinaryTree;
 
 // Functions
-BinaryTree* btCreateBinaryTree();
+BinaryTree* btCreateBinaryTree(int (*customCompare)(void *key, void *value2), void (*customPrintItem) (void *data));
 
-BTNode ** btGetParentChild(BinaryTree *bt, dataType key);
+int defaultCompare(void* key, void* data);
 
-BTNode ** btGetParentChildNode(BTNode *node, dataType key);
+void defaultPrintItem(void* data);
 
-BTNode* btCreateNode(dataType);
+BTNode ** btGetParentChild(BinaryTree *bt, void *key);
 
-int btInsert(BinaryTree* bt, dataType data);
+BTNode ** btGetParentChildNode(BTNode *node, void *key);
 
-BTNode * isLeaf(BinaryTree * bt, dataType key);
+BTNode* btCreateNode(void *data);
+
+int btInsert(BinaryTree* bt, void *data);
+
+BTNode * isLeaf(BinaryTree * bt, void *key);
 
 BTNode * getRightmostLeaf(BTNode * node);
 
@@ -39,12 +40,13 @@ BTNode * getLeftmostLeaf(BTNode * node);
 
 int btInsertNode(BTNode *root, BTNode *newNode);
 
-int btRemoveKey(BinaryTree* bt, dataType key);
+int btRemoveKey(BinaryTree* bt, void *key);
 
-BTNode * btSearchKey(BinaryTree* bt, dataType key);
+BTNode * btSearchKey(BinaryTree* bt, void *key);
 
-BTNode * btSearchKeyNode(BTNode * bt, dataType key);
+BTNode * btSearchKeyNode(BTNode * bt, void *key);
 
-void btPrint(BinaryTree *bt);
+// TODO
+// void btPrint(BinaryTree *bt);
 
 #endif
