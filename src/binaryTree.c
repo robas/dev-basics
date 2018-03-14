@@ -10,7 +10,7 @@ BinaryTree* btCreateBinaryTree(int (*customCompare)(void *key, void *value2), vo
     BinaryTree* newBT = malloc(sizeof(BinaryTree));
     newBT->root = NULL;
     newBT->compare = customCompare ? customCompare : &defaultCompare;
-    newBT->printItem = customPrintItem ? customPrintItem : &defaultPrintItem;
+    newBT->printItem = customPrintItem ? customPrintItem : &defaultPrintBtItem;
     return newBT;
 }
 
@@ -31,7 +31,7 @@ int defaultCompare(void *_key, void *data) {
 /**
  * Prints a list item assuming the item is an integer
  */
-void defaultPrintItem(void *data) {
+void defaultPrintBtItem(void *data) {
     if (data) {
         int *value = data;
         printf("%d ", *value);

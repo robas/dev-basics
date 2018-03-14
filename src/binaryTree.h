@@ -22,7 +22,7 @@ BinaryTree* btCreateBinaryTree(int (*customCompare)(void *key, void *value2), vo
 
 int defaultCompare(void* key, void* data);
 
-void defaultPrintItem(void* data);
+void defaultPrintBtItem(void* data);
 
 BTNode ** btGetParentChild(BinaryTree *bt, void *key);
 
