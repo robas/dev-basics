@@ -1,6 +1,17 @@
 #include "struct-test.h"
 #include "stdio.h"
+#include "stdlib.h"
 #include "string.h"
+
+
+struct foo *newFoo(char key, char *name, int age, int uptime) {
+    struct foo *myFoo = malloc(sizeof(struct foo));
+    myFoo->key = key;
+    myFoo->name = name;
+    myFoo->age = age;
+    myFoo->uptime = uptime;
+    return myFoo;
+}
 
 int foo_equals (void *_key, void *data) {
     char *key = _key;

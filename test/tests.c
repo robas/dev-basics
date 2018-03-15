@@ -6,54 +6,228 @@ int tests_run = 0;
 
 static char *test_list_default_create() {
     List *my_list = createList(NULL, NULL);
-    mu_assert("Error: List not created", my_list != NULL);
+    mu_assert("Error creating list with default functions", my_list != NULL);
     return 0;
 }
 
-static char *test_list_foo_create() {
+static char *test_list_foo_create_list() {
     List *my_list = createList(foo_equals, foo_customPrintItem);
-    mu_assert("Error: List not created", my_list != NULL);
+    mu_assert("Error creating list with custom functions", my_list != NULL);
     return 0;
 }
 
-static char *test_list_foo_insert() {
+static char *test_list_foo_create_node() {
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    mu_assert("Error creating Node", createNode(myFoo) != NULL);
+    return 0;
+}
+
+static char *test_list_foo_insertAtStart1() {
     List *my_list = createList(foo_equals, foo_customPrintItem);
 
-    struct foo *myFoo = malloc(sizeof(struct foo));
-    myFoo->key = 'r';
-    myFoo->name = "lalala";
-    myFoo->age = 32;
-    myFoo->uptime = 1000;
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
     insertAtStart(my_list, (void *) myFoo);
-    
-    // struct foo *myFoo2 = malloc(sizeof(struct foo));
-    // myFoo2->key = 'a';
-    // myFoo2->name = "lala lele";
-    // myFoo2->age = 33;
-    // myFoo2->uptime = 14400;
-    // insertAtEnd(my_list, (void *) myFoo2);
-    
-    // struct foo *myFoo3 = malloc(sizeof(struct foo));
-    // myFoo3->key = 'b';
-    // myFoo3->name = "lal lala le";
-    // myFoo3->age = 34;
-    // myFoo3->uptime = 196870;
-    // insertAtEnd(my_list, (void *) myFoo3);
-    
+
     char *_key = malloc(sizeof(char));
-    *_key = 'r';
+    *_key = 'a';
     
-    printList(my_list);
+    mu_assert("Error inserting item at the start of an empty list", searchKey(my_list, _key) == 1);
+    return 0;
+}
+
+static char *test_list_foo_insertAtStart2() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtStart(my_list, (void *) myFoo);
+    myFoo = newFoo('b', "Bob", 54, 143145);
+    insertAtStart(my_list, (void *) myFoo);
+
+    char *_key = malloc(sizeof(char));
+    *_key = 'b';
+    mu_assert("Error inserting item at the start of a non-empty list", searchKey(my_list, _key) == 1);
+    return 0;
+}
+
+static char *test_list_foo_insertAtEnd1() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtEnd(my_list, (void *) myFoo);
+
+    char *_key = malloc(sizeof(char));
+    *_key = 'a';
+    
+    mu_assert("Error inserting item at the end of an empty list", searchKey(my_list, _key) == 1);
+    return 0;
+}
+
+static char *test_list_foo_insertAtEnd2() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtEnd(my_list, (void *) myFoo);
+    myFoo = newFoo('b', "Bob", 54, 143145);
+    insertAtEnd(my_list, (void *) myFoo);
+
+    char *_key = malloc(sizeof(char));
+    *_key = 'b';
+    mu_assert("Error inserting item at the end of a non-empty list", searchKey(my_list, _key) == 2);
+    return 0;
+}
+
+static char *test_list_Length1() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    mu_assert("Error getting list length in an empty list", listLength(my_list) == 0);
+    return 0;
+}
+
+static char *test_list_Length2() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtEnd(my_list, (void *) myFoo);
+    myFoo = newFoo('b', "Bob", 54, 143145);
+    insertAtEnd(my_list, (void *) myFoo);
+
+    mu_assert("Error getting list length in a non-empty list", listLength(my_list) == 2);
+    return 0;
+}
+
+static char *test_list_foo_getAtIndex1() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    mu_assert("Error getting item at index 1 in an empty list", getAtIndex(my_list, 1) == NULL);
+    return 0;
+}
+
+static char *test_list_foo_getAtIndex2() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtEnd(my_list, (void *) myFoo);
+    myFoo = newFoo('b', "Bob", 54, 143145);
+    insertAtEnd(my_list, (void *) myFoo);
+
+    struct foo *myFooSearch = getAtIndex(my_list, 1);
+    
+    mu_assert("Error getting item at index 1 in a non-empty list",  myFooSearch->age == 32);
+    return 0;
+}
+
+static char *test_list_foo_getAtIndex3() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtEnd(my_list, (void *) myFoo);
+    myFoo = newFoo('b', "Bob", 54, 143145);
+    insertAtEnd(my_list, (void *) myFoo);
+
+    struct foo *myFooSearch = getAtIndex(my_list, 2);
+    
+    mu_assert("Error getting item at last index in a non-empty list",  myFooSearch->age == 54);
+    return 0;
+}
+
+static char *test_list_foo_insertAtIndex1() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtIndex(my_list, (void *) myFoo, 1);
+
+    struct foo *myFooSearch = getAtIndex(my_list, 1);
+    
+    mu_assert("Error inserting item in the first index in an empty list",  myFooSearch->age == 32);
+    return 0;
+}
+
+static char *test_list_foo_insertAtIndex2() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtIndex(my_list, (void *) myFoo, 1);
+    myFoo = newFoo('b', "Bob", 54, 143145);
+    insertAtIndex(my_list, (void *) myFoo, 1);
     
     
-    mu_assert("Error: Item not correctly inserted", searchKey(my_list, _key) == true);
+    struct foo *myFooSearch = getAtIndex(my_list, 1);
+    
+    mu_assert("Error inserting item in the first index in a non-empty list",  myFooSearch->age == 54);
+    return 0;
+}
+
+static char *test_list_foo_insertAtIndex3() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+   struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtIndex(my_list, (void *) myFoo, 1);
+    myFoo = newFoo('c', "Cody", 20, 9857423);
+    insertAtIndex(my_list, (void *) myFoo, 2);
+    myFoo = newFoo('b', "Bob", 54, 143145);
+    insertAtIndex(my_list, (void *) myFoo, 2);
+
+    struct foo *myFooSearch = getAtIndex(my_list, 2);
+    
+    mu_assert("Error inserting item in the second index in a non-empty list",  myFooSearch->age == 54);
+    return 0;
+}
+
+static char *test_list_foo_insertAtIndex4() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+   struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtIndex(my_list, (void *) myFoo, 1);
+    myFoo = newFoo('c', "Cody", 20, 9857423);
+    insertAtIndex(my_list, (void *) myFoo, 2);
+    myFoo = newFoo('b', "Bob", 54, 143145);
+    insertAtIndex(my_list, (void *) myFoo, 2);
+    myFoo = newFoo('d', "Danny", 30, 66532);
+    insertAtIndex(my_list, (void *) myFoo, 4);
+
+    struct foo *myFooSearch = getAtIndex(my_list, 4);
+    
+    mu_assert("Error inserting item in the 4th index in a non-empty list",  myFooSearch->age == 30);
+    return 0;
+}
+
+static char *test_list_foo_insertAtIndex5() {
+    List *my_list = createList(foo_equals, foo_customPrintItem);
+
+   struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    insertAtIndex(my_list, (void *) myFoo, 1);
+    myFoo = newFoo('c', "Cody", 20, 9857423);
+    insertAtIndex(my_list, (void *) myFoo, 2);
+    myFoo = newFoo('b', "Bob", 54, 143145);
+    insertAtIndex(my_list, (void *) myFoo, 2);
+    myFoo = newFoo('d', "Danny", 30, 66532);
+    insertAtIndex(my_list, (void *) myFoo, 4);
+
+    struct foo *myFooSearch = getAtIndex(my_list, 5);
+    
+    mu_assert("Error inserting item in the 4th index in a non-empty list",  myFooSearch == NULL);
     return 0;
 }
 
 static char * all_tests() {
      mu_run_test(test_list_default_create);
-     mu_run_test(test_list_foo_create);
-     mu_run_test(test_list_foo_insert);
+     mu_run_test(test_list_foo_create_list);
+     mu_run_test(test_list_foo_create_node);
+     mu_run_test(test_list_foo_insertAtStart1);
+     mu_run_test(test_list_foo_insertAtStart2);
+     mu_run_test(test_list_foo_insertAtEnd1);
+     mu_run_test(test_list_foo_insertAtEnd2);
+     mu_run_test(test_list_Length1);
+     mu_run_test(test_list_Length2);
+     mu_run_test(test_list_foo_getAtIndex1);
+     mu_run_test(test_list_foo_getAtIndex2);
+     mu_run_test(test_list_foo_getAtIndex3);
+     mu_run_test(test_list_foo_insertAtIndex1);
+     mu_run_test(test_list_foo_insertAtIndex2);
+     mu_run_test(test_list_foo_insertAtIndex3);
+     mu_run_test(test_list_foo_insertAtIndex4);
+     mu_run_test(test_list_foo_insertAtIndex5);
+    //  mu_run_test();
      return 0;
  }
 

@@ -15,6 +15,8 @@ struct bar {
     int uptime;
 };
 
+struct foo *newFoo(char key, char *name, int age, int uptime);
+
 int foo_equals (void *key, void *data);
 
 int foo_compare (void *key, void *data);

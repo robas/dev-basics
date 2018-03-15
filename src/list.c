@@ -264,17 +264,18 @@ int removeAtIndex(List *list, int index) {
 /**
  * Searches for the provided key into the list
  * Returns:
- *          On success (the key exists): true
- *          On failure (the does not exists): false
+ *          On success (the key exists): the item index, considering an 1 based list
+ *          On failure (the does not exists): 0
  */
 int searchKey(List *list, void *key) {
-    if (!list || !key) return false;
+    if (!list || !key) return 0;
     
-    for (Node *iterator = list->head; iterator; iterator = iterator->next) {
+    int index = 1;
+    for (Node *iterator = list->head; iterator; iterator = iterator->next,index++) {
         if (list->equals(key, iterator->data))
-            return true;
+            return index;
     }
-    return false;
+    return 0;
 }
 
 /**
