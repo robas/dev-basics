@@ -19,15 +19,32 @@ static char *test_list_foo_create() {
 static char *test_list_foo_insert() {
     List *my_list = createList(foo_equals, foo_customPrintItem);
 
-    struct foo *myFoo = malloc(sizeof(myFoo));
+    struct foo *myFoo = malloc(sizeof(struct foo));
     myFoo->key = 'r';
     myFoo->name = "lalala";
     myFoo->age = 32;
     myFoo->uptime = 1000;
-    
     insertAtStart(my_list, (void *) myFoo);
+    
+    // struct foo *myFoo2 = malloc(sizeof(struct foo));
+    // myFoo2->key = 'a';
+    // myFoo2->name = "lala lele";
+    // myFoo2->age = 33;
+    // myFoo2->uptime = 14400;
+    // insertAtEnd(my_list, (void *) myFoo2);
+    
+    // struct foo *myFoo3 = malloc(sizeof(struct foo));
+    // myFoo3->key = 'b';
+    // myFoo3->name = "lal lala le";
+    // myFoo3->age = 34;
+    // myFoo3->uptime = 196870;
+    // insertAtEnd(my_list, (void *) myFoo3);
+    
     char *_key = malloc(sizeof(char));
     *_key = 'r';
+    
+    printList(my_list);
+    
     
     mu_assert("Error: Item not correctly inserted", searchKey(my_list, _key) == true);
     return 0;

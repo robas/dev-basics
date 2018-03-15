@@ -16,7 +16,7 @@ void foo_customPrintItem(void *data) {
         printf("%c ", myFoo->key);
         printf("%s ", myFoo->name);
         printf("%d ", myFoo->age);
-        printf("%d ", myFoo->uptime);
+        printf("%d\n", myFoo->uptime);
     }
     return;
 }
@@ -40,9 +40,9 @@ void bar_customPrintItem(void *data) {
     if (data) {
         struct bar *myBar = data;
         printf("%s ", myBar->key);
-        printf("d ", myBar->id);
+        printf("%d ", myBar->id);
         printf("%d ", myBar->age);
-        printf("%d ", myBar->uptime);
+        printf("%d\n", myBar->uptime);
     }
     return;
 }
