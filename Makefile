@@ -28,18 +28,21 @@ main.o: ${SRC_DIR}/main.c
 list.o: ${SRC_DIR}/list.c ${SRC_DIR}/list.h
 	${CC} -c ${SRC_DIR}/list.c
 
-list-test.o: ${TEST_DIR}/list-test.c
-	${CC} -c ${TEST_DIR}/list-test.c
-
 queue.o: ${SRC_DIR}/queue.c ${SRC_DIR}/queue.h
 	${CC} -c ${SRC_DIR}/queue.c
 	
 stack.o: ${SRC_DIR}/stack.c ${SRC_DIR}/stack.h
 	${CC} -c ${SRC_DIR}/stack.c
-	
+
 binaryTree.o: ${SRC_DIR}/binaryTree.c ${SRC_DIR}/binaryTree.h
 	${CC} -c ${SRC_DIR}/binaryTree.c
-	
+
+struct-test.o: ${TEST_DIR}/struct-test.c ${TEST_DIR}/struct-test.h
+	${CC} -c ${TEST_DIR}/struct-test.c
+
+tests.o: ${TEST_DIR}/tests.c
+	${CC} -c ${TEST_DIR}/tests.c
+
 clean:
 	@echo "Cleaning up..."
 	-rm -f *.o
@@ -61,6 +64,6 @@ binary-tree: main.o binaryTree.o list.o
 	@echo "Building Binary Tree..."
 	${CC} main.o binaryTree.o list.o -o ${EXE}
 
-list-test: list-test.o list.o
-	@echo "Building Test..."
-	${CC} list-test.o list.o -o ${TEST_OUTPUT}
+test: tests.o list.o struct-test.o
+	@echo "Building Tests..."
+	${CC} struct-test.o tests.o list.o -o ${TEST_OUTPUT}
