@@ -1,6 +1,7 @@
 #include "list.h"
 #include "minunit.h"
 #include "struct-test.h"
+#include "string.h"
 
 int tests_run = 0;
 
@@ -12,13 +13,25 @@ static char *test_list_default_create() {
 
 static char *test_list_foo_create_list() {
     List *my_list = createList(foo_equals, foo_customPrintItem);
-    mu_assert("Error creating list with custom functions", my_list != NULL);
+    mu_assert("Error creating list with custom foo functions", my_list != NULL);
+    return 0;
+}
+
+static char *test_list_bar_create_list() {
+    List *my_list = createList(bar_equals, bar_customPrintItem);
+    mu_assert("Error creating list with custom bar functions", my_list != NULL);
     return 0;
 }
 
 static char *test_list_foo_create_node() {
     struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
-    mu_assert("Error creating Node", createNode(myFoo) != NULL);
+    mu_assert("Error creating Node with foo struct", createNode(myFoo) != NULL);
+    return 0;
+}
+
+static char *test_list_bar_create_node() {
+    struct bar *myBar = newBar("abc", 1, 32, 1000);
+    mu_assert("Error creating Node with bar struct", createNode(myBar) != NULL);
     return 0;
 }
 
@@ -35,6 +48,18 @@ static char *test_list_foo_insertAtStart1() {
     return 0;
 }
 
+static char *test_list_bar_insertAtStart1() {
+    List *my_list = createList(bar_equals, bar_customPrintItem);
+
+    struct bar *myBar = newBar("abc", 1, 32, 1000);
+    insertAtStart(my_list, (void *) myBar);
+
+    char *_key = "abc";
+    
+    mu_assert("Error inserting bar item at the start of an empty list", searchKey(my_list, _key) == 1);
+    return 0;
+}
+
 static char *test_list_foo_insertAtStart2() {
     List *my_list = createList(foo_equals, foo_customPrintItem);
 
@@ -46,6 +71,20 @@ static char *test_list_foo_insertAtStart2() {
     char *_key = malloc(sizeof(char));
     *_key = 'b';
     mu_assert("Error inserting item at the start of a non-empty list", searchKey(my_list, _key) == 1);
+    return 0;
+}
+
+static char *test_list_bar_insertAtStart2() {
+    List *my_list = createList(bar_equals, bar_customPrintItem);
+
+    struct bar *myBar = newBar("abc", 1, 32, 1000);
+    insertAtStart(my_list, (void *) myBar);
+    myBar = newBar("bcd", 2, 54, 431231);
+    insertAtStart(my_list, (void *) myBar);
+
+    printList(my_list);
+    
+    mu_assert("Error inserting bar item at the start of a non-empty list", searchKey(my_list, "bcd") == 1);
     return 0;
 }
 
@@ -138,7 +177,7 @@ static char *test_list_foo_insertAtIndex1() {
 
     struct foo *myFooSearch = getAtIndex(my_list, 1);
     
-    mu_assert("Error inserting item in the first index in an empty list",  myFooSearch->age == 32);
+    mu_assert("Error inserting item in the first index in an empty list",  strcmp(myFooSearch->name, "Aron") == 0);
     return 0;
 }
 
@@ -194,7 +233,7 @@ static char *test_list_foo_insertAtIndex4() {
 static char *test_list_foo_insertAtIndex5() {
     List *my_list = createList(foo_equals, foo_customPrintItem);
 
-   struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
     insertAtIndex(my_list, (void *) myFoo, 1);
     myFoo = newFoo('c', "Cody", 20, 9857423);
     insertAtIndex(my_list, (void *) myFoo, 2);
@@ -212,9 +251,13 @@ static char *test_list_foo_insertAtIndex5() {
 static char * all_tests() {
      mu_run_test(test_list_default_create);
      mu_run_test(test_list_foo_create_list);
+     mu_run_test(test_list_bar_create_list);
      mu_run_test(test_list_foo_create_node);
+     mu_run_test(test_list_bar_create_node);
      mu_run_test(test_list_foo_insertAtStart1);
+     mu_run_test(test_list_bar_insertAtStart1);
      mu_run_test(test_list_foo_insertAtStart2);
+     mu_run_test(test_list_bar_insertAtStart2);
      mu_run_test(test_list_foo_insertAtEnd1);
      mu_run_test(test_list_foo_insertAtEnd2);
      mu_run_test(test_list_Length1);
@@ -227,6 +270,8 @@ static char * all_tests() {
      mu_run_test(test_list_foo_insertAtIndex3);
      mu_run_test(test_list_foo_insertAtIndex4);
      mu_run_test(test_list_foo_insertAtIndex5);
+     
+     
     //  mu_run_test();
      return 0;
  }

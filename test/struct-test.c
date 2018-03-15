@@ -13,6 +13,15 @@ struct foo *newFoo(char key, char *name, int age, int uptime) {
     return myFoo;
 }
 
+struct bar *newBar(char *key, int id, int age, int uptime) {
+    struct bar *myBar = malloc(sizeof(struct bar));
+    myBar->key = key;
+    myBar->id = id;
+    myBar->age = age;
+    myBar->uptime = uptime;
+    return myBar;
+}
+
 int foo_equals (void *_key, void *data) {
     char *key = _key;
     struct foo *myFoo = data;
