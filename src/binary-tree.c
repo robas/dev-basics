@@ -1,6 +1,7 @@
 #include <limits.h>
 #include "binary-tree.h"
 #include "queue.h"
+#include <stdio.h>
 
 /**
  * Creates a new mallocated binary tree
@@ -198,19 +199,22 @@ int btRemoveKey(BinaryTree* bt, void *key) {
  */
 BTNode * btSearchKey(BinaryTree* bt, void *key) {
     if (!bt->root) {
+        printf("root é nulo\n");
         return NULL;
     } else {
-        return _btSearchKeyNode(bt->root, key);
+        return _btSearchKeyNode(bt, bt->root, key);
     }
 }
 
-BTNode * _btSearchKeyNode(BTNode *node, void *key) {
-    if (node->data == key) {
+BTNode * _btSearchKeyNode(BinaryTree* bt, BTNode *node, void *key) {
+    int compareResult = bt->compare(key, node->data);
+    printf("result %d\n", compareResult);
+    if (compareResult == 0) {
         return node;
-    } else if (key < node->data) {
-        return (node->left) ? _btSearchKeyNode(node->left, key) : NULL;
-    } else if (key > node->data) {
-        return (node->right) ? _btSearchKeyNode(node->right, key) : NULL;
+    } else if (compareResult < 0) {
+        return (node->left) ? _btSearchKeyNode(bt, node->left, key) : NULL;
+    } else if (compareResult > 0) {
+        return (node->right) ? _btSearchKeyNode(bt, node->right, key) : NULL;
     } else {
         return NULL;
     }

@@ -3,6 +3,7 @@
 #include "struct-test.h"
 #include "string.h"
 #include "binary-tree.h"
+#include "stdio.h"
 
 int tests_run = 0;
 
@@ -291,11 +292,11 @@ static char *test_binaryTree_foo_insert2() {
 }
 
 static char *test_binaryTree_bar_insert2() {
-    BinaryTree *bt = btCreateBinaryTree(foo_customCompare, foo_customPrintItem);
+    BinaryTree *bt = btCreateBinaryTree(bar_customCompare, bar_customPrintItem);
     struct bar *myBar = newBar("abc", 1, 32, 1000);
-    myBar = newBar("bcd", 2, 54, 542934);
+    btInsert(bt, (void *) myBar);
     
-    mu_assert("Error inserting foo item in an empty binary tree", btInsert(bt, (void *) myBar) == 0);
+    mu_assert("Error inserting foo item in an empty binary tree", btSearchKey(bt, "abc") != NULL);
     return 0;
 }
 
@@ -328,7 +329,7 @@ static char * all_tests() {
      mu_run_test(test_binaryTree_bar_insert1);
      mu_run_test(test_binaryTree_foo_insert2);
      mu_run_test(test_binaryTree_bar_insert2);
-     
+
      return 0;
  }
 

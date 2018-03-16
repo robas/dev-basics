@@ -44,7 +44,7 @@ int btRemoveKey(BinaryTree* bt, void *key);
 
 BTNode * btSearchKey(BinaryTree* bt, void *key);
 
-BTNode * _btSearchKeyNode(BTNode * bt, void *key);
+BTNode * _btSearchKeyNode(BinaryTree* bt, BTNode * node, void *key);
 
 // void btPrint(BinaryTree *bt);
 
