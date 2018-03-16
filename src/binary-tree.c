@@ -1,5 +1,5 @@
 #include <limits.h>
-#include "binaryTree.h"
+#include "binary-tree.h"
 #include "queue.h"
 
 /**
