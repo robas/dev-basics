@@ -2,6 +2,7 @@
 #include "minunit.h"
 #include "struct-test.h"
 #include "string.h"
+#include "binary-tree.h"
 
 int tests_run = 0;
 
@@ -81,8 +82,6 @@ static char *test_list_bar_insertAtStart2() {
     insertAtStart(my_list, (void *) myBar);
     myBar = newBar("bcd", 2, 54, 431231);
     insertAtStart(my_list, (void *) myBar);
-
-    printList(my_list);
     
     mu_assert("Error inserting bar item at the start of a non-empty list", searchKey(my_list, "bcd") == 1);
     return 0;
@@ -226,7 +225,7 @@ static char *test_list_foo_insertAtIndex4() {
 
     struct foo *myFooSearch = getAtIndex(my_list, 4);
     
-    mu_assert("Error inserting item in the 4th index in a non-empty list",  myFooSearch->age == 30);
+    mu_assert("Error inserting item in the last index in a non-empty list",  myFooSearch->age == 30);
     return 0;
 }
 
@@ -244,7 +243,59 @@ static char *test_list_foo_insertAtIndex5() {
 
     struct foo *myFooSearch = getAtIndex(my_list, 5);
     
-    mu_assert("Error inserting item in the 4th index in a non-empty list",  myFooSearch == NULL);
+    mu_assert("Error inserting item in an out-of-bounds index in a non-empty list",  myFooSearch == NULL);
+    return 0;
+}
+
+static char *test_binaryTree_default_create() {
+    BinaryTree *bt = btCreateBinaryTree(NULL, NULL);
+    mu_assert("Error creating binary tree with default functions", bt != NULL);
+    return 0;
+}
+
+static char *test_binaryTree_foo_create_binaryTree() {
+    BinaryTree *bt = btCreateBinaryTree(foo_customCompare, foo_customPrintItem);
+    mu_assert("Error creating binary tree with custom foo functions", bt != NULL);
+    return 0;
+}
+
+static char *test_binaryTree_foo_create_node() {
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    mu_assert("Error creating binary tree node with foo struct", btCreateNode(myFoo) != NULL);
+    return 0;
+}
+
+static char *test_binaryTree_foo_insert1() {
+    BinaryTree *bt = btCreateBinaryTree(foo_customCompare, foo_customPrintItem);
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    
+    mu_assert("Error inserting foo item in an empty binary tree", btInsert(bt, (void *) myFoo) == 0);
+    return 0;
+}
+
+static char *test_binaryTree_bar_insert1() {
+    BinaryTree *bt = btCreateBinaryTree(foo_customCompare, foo_customPrintItem);
+    struct bar *myBar = newBar("abc", 1, 32, 1000);
+    
+    mu_assert("EError inserting foo item in an empty binary tree", btInsert(bt, (void *) myBar) == 0);
+    return 0;
+}
+
+static char *test_binaryTree_foo_insert2() {
+    BinaryTree *bt = btCreateBinaryTree(foo_customCompare, foo_customPrintItem);
+    struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
+    myFoo = newFoo('c', "Cody", 20, 9857423);
+    
+    mu_assert("Error inserting foo item in an empty binary tree", btInsert(bt, (void *) myFoo) == 0);
+    return 0;
+}
+
+static char *test_binaryTree_bar_insert2() {
+    BinaryTree *bt = btCreateBinaryTree(foo_customCompare, foo_customPrintItem);
+    struct bar *myBar = newBar("abc", 1, 32, 1000);
+    myBar = newBar("bcd", 2, 54, 542934);
+    
+    mu_assert("Error inserting foo item in an empty binary tree", btInsert(bt, (void *) myBar) == 0);
     return 0;
 }
 
@@ -270,9 +321,14 @@ static char * all_tests() {
      mu_run_test(test_list_foo_insertAtIndex3);
      mu_run_test(test_list_foo_insertAtIndex4);
      mu_run_test(test_list_foo_insertAtIndex5);
+     mu_run_test(test_binaryTree_default_create);
+     mu_run_test(test_binaryTree_foo_create_binaryTree);
+     mu_run_test(test_binaryTree_foo_create_node);
+     mu_run_test(test_binaryTree_foo_insert1);
+     mu_run_test(test_binaryTree_bar_insert1);
+     mu_run_test(test_binaryTree_foo_insert2);
+     mu_run_test(test_binaryTree_bar_insert2);
      
-     
-    //  mu_run_test();
      return 0;
  }
 

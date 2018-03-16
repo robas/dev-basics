@@ -38,15 +38,14 @@ BTNode * getRightmostLeaf(BTNode * node);
 
 BTNode * getLeftmostLeaf(BTNode * node);
 
-int btInsertNode(BTNode *root, BTNode *newNode);
+int _btInsertNode(BTNode *root, BTNode *newNode);
 
 int btRemoveKey(BinaryTree* bt, void *key);
 
 BTNode * btSearchKey(BinaryTree* bt, void *key);
 
-BTNode * btSearchKeyNode(BTNode * bt, void *key);
+BTNode * _btSearchKeyNode(BTNode * bt, void *key);
 
-// TODO
 // void btPrint(BinaryTree *bt);
 
 #endif

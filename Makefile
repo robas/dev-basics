@@ -4,7 +4,7 @@ DEBUG_FLAGS = -g
 INCLUDES = -I ./src -I ./test
 CC = ${GCC} ${CFLAGS} ${INCLUDES}
 DEBUG_CC = ${GCC} ${DEBUG_FLAGS} ${CFLAGS} ${INCLUDES}
-OBJS = main.o list.o queue.o stack.o binaryTree.o
+OBJS = main.o list.o queue.o stack.o binary-tree.o
 EXE = target.out
 DBG = debug.out
 TEST_OUTPUT = test.out
@@ -34,8 +34,8 @@ queue.o: ${SRC_DIR}/queue.c ${SRC_DIR}/queue.h
 stack.o: ${SRC_DIR}/stack.c ${SRC_DIR}/stack.h
 	${CC} -c ${SRC_DIR}/stack.c
 
-binaryTree.o: ${SRC_DIR}/binaryTree.c ${SRC_DIR}/binaryTree.h
-	${CC} -c ${SRC_DIR}/binaryTree.c
+binary-tree.o: ${SRC_DIR}/binary-tree.c ${SRC_DIR}/binary-tree.h
+	${CC} -c ${SRC_DIR}/binary-tree.c
 
 struct-test.o: ${TEST_DIR}/struct-test.c ${TEST_DIR}/struct-test.h
 	${CC} -c ${TEST_DIR}/struct-test.c
@@ -60,10 +60,10 @@ stack: main.o stack.o list.o
 	@echo "Building Stack..."
 	${CC} main.o stack.o list.o -o ${EXE}
 
-binary-tree: main.o binaryTree.o list.o
+binary-tree: main.o binary-tree.o list.o
 	@echo "Building Binary Tree..."
-	${CC} main.o binaryTree.o list.o -o ${EXE}
+	${CC} main.o binary-tree.o list.o -o ${EXE}
 
-test: tests.o list.o struct-test.o
+test: tests.o struct-test.o list.o binary-tree.o
 	@echo "Building Tests..."
-	${CC} struct-test.o tests.o list.o -o ${TEST_OUTPUT}
+	${CC} struct-test.o tests.o list.o binary-tree.o -o ${TEST_OUTPUT}

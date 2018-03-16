@@ -19,15 +19,15 @@ struct foo *newFoo(char key, char *name, int age, int uptime);
 
 struct bar *newBar(char *key, int id, int age, int uptime);
 
-int foo_equals (void *key, void *data);
+int foo_equals(void *key, void *data);
 
-int foo_compare (void *key, void *data);
+int foo_customCompare(void *key, void *data);
 
 void foo_customPrintItem(void *data);
 
-int bar_equals (void *key, void *data);
+int bar_equals(void *key, void *data);
 
-int bar_compare (void *key, void *data);
+int bar_customCompare(void *key, void *data);
 
 void bar_customPrintItem(void *data);
 

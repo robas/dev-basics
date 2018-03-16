@@ -22,7 +22,7 @@ struct bar *newBar(char *key, int id, int age, int uptime) {
     return myBar;
 }
 
-int foo_equals (void *_key, void *data) {
+int foo_equals(void *_key, void *data) {
     char *key = _key;
     struct foo *myFoo = data;
     
@@ -48,7 +48,7 @@ int foo_customCompare(void *_key, void *data) {
     return (*key < myFoo->key) ? -1 : 1;
 }
 
-int bar_equals (void *_key, void *data) {
+int bar_equals(void *_key, void *data) {
     char *key = _key;
     struct bar *myBar = data;
     
