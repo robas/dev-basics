@@ -60,11 +60,11 @@ BTNode *btCreateNode(void *data) {
  * Inserts a new node with the provided key into the tree
  * Returns:
  *          On success: 0
- *          On failure: -1 (the data passed is NULL)
+ *          On failure: -1 (the data or the binary tree passed is NULL)
  *                       1 (the inserted key already exists in the tree)
  */
 int btInsert(BinaryTree* bt, void *data) {
-    if (!data) return -1;
+    if (!bt || !data) return -1;
 
     BTNode *newNode = btCreateNode(data);
     if (!bt->root) {
