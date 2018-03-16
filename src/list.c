@@ -67,7 +67,7 @@ void printList(List* list) {
  *          On failure:  a NULL pointer
  */
 Node *createNode(void *data) {
-    // if (!data) return NULL;
+    if (!data) return NULL;
     
     Node *newNode = malloc(sizeof(Node));
     if (newNode) {
@@ -88,7 +88,9 @@ int listLength(List* list) {
     if (!list) return -1;
     
     int i = 0;
-    for (Node *iterator = list->head; iterator; iterator = iterator->next, i++);
+    for (Node *iterator = list->head; iterator; iterator = iterator->next) {
+        i++;
+    }
     return i;
 }
 
@@ -105,7 +107,10 @@ void * getAtIndex(List *list, int index) {
         return NULL;
     } else {
         Node *iterator = list->head;
-        for (int i = 1; i < index && iterator->next; i++, iterator = iterator->next);
+        // TODO: colocar o for em uma linha só
+        for (int i = 1; i < index && iterator->next; i++) {
+            iterator = iterator->next;
+        }
         return iterator->data;
     }
 }
@@ -119,7 +124,7 @@ void * getAtIndex(List *list, int index) {
  *          On failure: false 
  */ 
 int insertAtStart(List* list, void *data) {
-    if (!list) return false;
+    if (!list || !data) return false;
     
     Node *newNode = createNode(data);
     if (!newNode) {
@@ -141,7 +146,7 @@ int insertAtStart(List* list, void *data) {
  *          On failure: false
  */
 int insertAtEnd(List* list, void *data) {
-    if (!list) return false;
+    if (!list || !data) return false;
     
     Node *newNode = createNode(data);
     if (!newNode) {
@@ -172,30 +177,26 @@ int insertAtEnd(List* list, void *data) {
  *          On failure: false
  */
 int insertAtIndex(List* list, void *data, int index) {
-    if (!list) return false;
+    if (!list || !data) return false;
     
     if (index > list->length+1 || index < 1)
         return false;
 
     Node *newNode = createNode(data);
-    if(!newNode) {
-        return false;
+    if (index == 1) {
+        newNode->next = list->head;
+        list->head = newNode;
     } else {
-        if (index == 1) {
-            newNode->next = list->head;
-            list->head = newNode;
-        } else {
-            Node *iterator = list->head;
-        
-            for (int i = 1; i < index-1 && iterator->next; i++) {
-                iterator = iterator->next;
-            }
-            newNode->next = iterator->next;
-            iterator->next = newNode;
+        Node *iterator = list->head;
+    
+        for (int i = 1; i < index-1 && iterator->next; i++) {
+            iterator = iterator->next;
         }
-        list->length++;
-        return true;
+        newNode->next = iterator->next;
+        iterator->next = newNode;
     }
+    list->length++;
+    return true;
 }
 
 /**
@@ -206,7 +207,7 @@ int insertAtIndex(List* list, void *data, int index) {
  *          On failure (did not find the key): false
  */
 int removeKey(List *list, void *key) {
-    if (!list) return false;
+    if (!list || !key) return false;
     
     if (list->equals(key, list->head->data)) {
         Node *temp = list->head;

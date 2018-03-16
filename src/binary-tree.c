@@ -199,6 +199,7 @@ int btRemoveKey(BinaryTree* bt, void *key) {
  */
 BTNode * btSearchKey(BinaryTree* bt, void *key) {
     if (!bt->root) {
+        printf("root é nulo\n");
         return NULL;
     } else {
         return _btSearchKeyNode(bt, bt->root, key);
@@ -207,6 +208,7 @@ BTNode * btSearchKey(BinaryTree* bt, void *key) {
 
 BTNode * _btSearchKeyNode(BinaryTree* bt, BTNode *node, void *key) {
     int compareResult = bt->compare(key, node->data);
+    printf("result %d\n", compareResult);
     if (compareResult == 0) {
         return node;
     } else if (compareResult < 0) {

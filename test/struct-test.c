@@ -70,5 +70,6 @@ void bar_customPrintItem(void *data) {
 int bar_customCompare(void *_key, void *data) {
     struct bar *myBar = (struct bar *) data;
     char *key = _key;
+    printf("comparando %s %s\n", key, myBar->key);
     return strcmp(key, myBar->key);
 }
