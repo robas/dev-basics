@@ -26,7 +26,7 @@ void defaultPrintBtItem(void* data);
 
 BTNode ** btGetParentChild(BinaryTree *bt, void *key);
 
-BTNode ** btGetParentChildNode(BTNode *node, void *key);
+BTNode ** btGetParentChildNode(BinaryTree *bt, BTNode *node, void *key);
 
 BTNode* btCreateNode(void *data);
 
@@ -38,14 +38,14 @@ BTNode * getRightmostLeaf(BTNode * node);
 
 BTNode * getLeftmostLeaf(BTNode * node);
 
-int _btInsertNode(BTNode *root, BTNode *newNode);
+int _btInsertNode(BinaryTree *bt, BTNode *root, BTNode *newNode);
 
-int btRemoveKey(BinaryTree* bt, void *key);
+int btRemoveKey(BinaryTree *bt, void *key);
 
 BTNode * btSearchKey(BinaryTree* bt, void *key);
 
 BTNode * _btSearchKeyNode(BinaryTree* bt, BTNode * node, void *key);
 
-// void btPrint(BinaryTree *bt);
+void btPrint(BinaryTree *bt);
 
 #endif

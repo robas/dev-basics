@@ -64,6 +64,6 @@ binary-tree: main.o binary-tree.o list.o
 	@echo "Building Binary Tree..."
 	${CC} main.o binary-tree.o list.o -o ${EXE}
 
-test: tests.o struct-test.o list.o binary-tree.o
+test: tests.o struct-test.o list.o binary-tree.o queue.o
 	@echo "Building Tests..."
-	${CC} struct-test.o tests.o list.o binary-tree.o -o ${TEST_OUTPUT}
+	${CC} struct-test.o tests.o list.o queue.o binary-tree.o -o ${TEST_OUTPUT}

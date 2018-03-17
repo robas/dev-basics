@@ -27,7 +27,7 @@ void foo_customPrintItem(void *data);
 
 int bar_equals(void *key, void *data);
 
-int bar_customCompare(void *key, void *data);
+int bar_customCompare(void *data1, void *data2);
 
 void bar_customPrintItem(void *data);
 

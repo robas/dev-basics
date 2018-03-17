@@ -278,7 +278,7 @@ static char *test_binaryTree_bar_insert1() {
     BinaryTree *bt = btCreateBinaryTree(foo_customCompare, foo_customPrintItem);
     struct bar *myBar = newBar("abc", 1, 32, 1000);
     
-    mu_assert("EError inserting foo item in an empty binary tree", btInsert(bt, (void *) myBar) == 0);
+    mu_assert("Error inserting bar item in an empty binary tree", btInsert(bt, (void *) myBar) == 0);
     return 0;
 }
 
@@ -287,7 +287,7 @@ static char *test_binaryTree_foo_insert2() {
     struct foo *myFoo = newFoo('a', "Aron", 32, 1000);
     myFoo = newFoo('c', "Cody", 20, 9857423);
     
-    mu_assert("Error inserting foo item in an empty binary tree", btInsert(bt, (void *) myFoo) == 0);
+    mu_assert("Error inserting foo item in a non-empty binary tree", btInsert(bt, (void *) myFoo) == 0);
     return 0;
 }
 
@@ -295,8 +295,25 @@ static char *test_binaryTree_bar_insert2() {
     BinaryTree *bt = btCreateBinaryTree(bar_customCompare, bar_customPrintItem);
     struct bar *myBar = newBar("abc", 1, 32, 1000);
     btInsert(bt, (void *) myBar);
+    struct bar *mySearch = newBar("abc", 0, 0, 0);
+    mu_assert("Error inserting bar item in a non-empty binary tree", btSearchKey(bt, mySearch) != NULL);
+    return 0;
+}
+
+static char *test_binaryTree_bar_remove1() {
+    BinaryTree *bt = btCreateBinaryTree(bar_customCompare, bar_customPrintItem);
+    struct bar *mySearch = newBar("abc", 1, 32, 1000);
     
-    mu_assert("Error inserting foo item in an empty binary tree", btSearchKey(bt, "abc") != NULL);
+    mu_assert("Error removing bar item from an empty binary tree", btRemoveKey(bt, mySearch) == -1);
+    return 0;
+}
+
+static char *test_binaryTree_bar_remove2() {
+    BinaryTree *bt = btCreateBinaryTree(bar_customCompare, bar_customPrintItem);
+    struct bar *myBar = newBar("abc", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    struct bar *mySearch = newBar("abc", 0, 0, 0);
+    mu_assert("Error removing bar item from a non-empty binary tree", btRemoveKey(bt, mySearch) == 0);
     return 0;
 }
 
@@ -329,6 +346,9 @@ static char * all_tests() {
      mu_run_test(test_binaryTree_bar_insert1);
      mu_run_test(test_binaryTree_foo_insert2);
      mu_run_test(test_binaryTree_bar_insert2);
+     mu_run_test(test_binaryTree_bar_remove1);
+     mu_run_test(test_binaryTree_bar_remove2);
+
 
      return 0;
  }

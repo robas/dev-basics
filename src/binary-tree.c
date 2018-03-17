@@ -65,29 +65,29 @@ BTNode *btCreateNode(void *data) {
  */
 int btInsert(BinaryTree* bt, void *data) {
     if (!bt || !data) return -1;
-
     BTNode *newNode = btCreateNode(data);
     if (!bt->root) {
         bt->root = newNode;
         return 0;
     } else {
-        return _btInsertNode(bt->root, newNode);
+        return _btInsertNode(bt, bt->root, newNode);
     }
 }
 
-int _btInsertNode(BTNode *root, BTNode *newNode) {
-    if (newNode->data < root->data && !root->left) {
+// TODO: CORRIGIR USANDO A FUNÇÃO DE COMPARE.
+int _btInsertNode(BinaryTree *bt, BTNode *root, BTNode *newNode) {
+    if (bt->compare(newNode->data, root->data) < 0 && !root->left) {
         root->left = newNode;
         return 0;
-    } else if (newNode->data > root->data && !root->right) {
+    } else if (bt->compare(newNode->data, root->data) > 0 && !root->right) {
         root->right = newNode;
         return 0;
     }
     
-    if (newNode->data < root->data) {
-        return _btInsertNode(root->left, newNode);
-    } else if (newNode->data > root->data) {
-        return _btInsertNode(root->right, newNode);
+    if (bt->compare(newNode->data, root->data) < 0) {
+        return _btInsertNode(bt, root->left, newNode);
+    } else if (bt->compare(newNode->data, root->data) > 0) {
+        return _btInsertNode(bt, root->right, newNode);
     } else {
         return 1;
     }
@@ -99,9 +99,9 @@ int _btInsertNode(BTNode *root, BTNode *newNode) {
  *          NULL: the node is not a leaf
  *          Pointer to the node: if the node IS a leaf
  */
-BTNode * isLeaf(BinaryTree * bt, void *key) {
+BTNode * isLeaf(BinaryTree * bt, void *data) {
     BTNode * target = NULL;
-    if ((target = btSearchKey(bt, key)) == NULL) {
+    if ((target = btSearchKey(bt, data)) == NULL) {
         return NULL;
     } else {
         return (!target->left && !target->right) ? target : NULL;
@@ -114,27 +114,27 @@ BTNode * isLeaf(BinaryTree * bt, void *key) {
  *          NULL: if the tree is empty or the key was not found
  *          Pointer to the intended node's parent ->left or ->right depending if the intended node is a left or right child
  */
-BTNode ** btGetParentChild(BinaryTree *bt, void *key) {
+BTNode ** btGetParentChild(BinaryTree *bt, void *data) {
     if (bt->root) {
-        if (bt->root->data == key) {
+        if (bt->compare(bt->root->data, data) == 0) {
             return &bt->root;
         } else {
-            return btGetParentChildNode(bt->root, key);
+            return btGetParentChildNode(bt, bt->root, data);
         }
     } else {
         return NULL;
     }
 }
 
-BTNode ** btGetParentChildNode(BTNode *node, void *key) {
-    if (node->left->data == key) {
+BTNode ** btGetParentChildNode(BinaryTree *bt, BTNode *node, void *data) {
+    if (bt->compare(node->left->data, data) == 0) {
         return &node->left;
-    } else if (node->right->data == key) {
+    } else if (bt->compare(node->right->data, data) == 0) {
         return &node->right;
-    } else if (key < node->data) {
-        return (node->left) ? btGetParentChildNode(node->left, key) : NULL;
-    } else if (key > node->data) {
-        return (node->right) ? btGetParentChildNode(node->right, key) : NULL;
+    } else if (bt->compare(data, node->data) < 0) {
+        return (node->left) ? btGetParentChildNode(bt, node->left, data) : NULL;
+    } else if (bt->compare(data, node->data) > 0) {
+        return (node->right) ? btGetParentChildNode(bt, node->right, data) : NULL;
     } else {
         return NULL;
     }
@@ -146,18 +146,18 @@ BTNode ** btGetParentChildNode(BTNode *node, void *key) {
  *           0: the removal was a success
  *          -1: the provided key does not exist
  */
-int btRemoveKey(BinaryTree* bt, void *key) {
+int btRemoveKey(BinaryTree* bt, void *data) {
     BTNode * target = NULL;
     BTNode ** targetParentChild = NULL;
     int targetIsNotRoot = true;
 
     // Key does not exist in the tree
-    if ((target = btSearchKey(bt, key)) == NULL) {
+    if ((target = btSearchKey(bt, data)) == NULL) {
         return -1;
     }
     
     // targetParentChild is a pointer to the target's parent ->left or ->right depending if the target is a left or right child
-    targetIsNotRoot = (targetParentChild = btGetParentChild(bt, key)) != NULL ? true : false;
+    targetIsNotRoot = (targetParentChild = btGetParentChild(bt, data)) != NULL ? true : false;
 
     // Key is a leaf node
     if (!target->left && !target->right) {
@@ -197,24 +197,22 @@ int btRemoveKey(BinaryTree* bt, void *key) {
  *          NULL: the key is empty or was not found
  *          Pointer to the intended node
  */
-BTNode * btSearchKey(BinaryTree* bt, void *key) {
+BTNode * btSearchKey(BinaryTree* bt, void *data) {
     if (!bt->root) {
-        printf("root é nulo\n");
         return NULL;
     } else {
-        return _btSearchKeyNode(bt, bt->root, key);
+        return _btSearchKeyNode(bt, bt->root, data);
     }
 }
 
-BTNode * _btSearchKeyNode(BinaryTree* bt, BTNode *node, void *key) {
-    int compareResult = bt->compare(key, node->data);
-    printf("result %d\n", compareResult);
+BTNode * _btSearchKeyNode(BinaryTree* bt, BTNode *node, void *data) {
+    int compareResult = bt->compare(data, node->data);
     if (compareResult == 0) {
         return node;
     } else if (compareResult < 0) {
-        return (node->left) ? _btSearchKeyNode(bt, node->left, key) : NULL;
+        return (node->left) ? _btSearchKeyNode(bt, node->left, data) : NULL;
     } else if (compareResult > 0) {
-        return (node->right) ? _btSearchKeyNode(bt, node->right, key) : NULL;
+        return (node->right) ? _btSearchKeyNode(bt, node->right, data) : NULL;
     } else {
         return NULL;
     }
@@ -238,38 +236,34 @@ BTNode * getRightmostLeaf(BTNode * node) {
     return (!node->right) ? node : getRightmostLeaf(node->right);
 }
 
-/** TODO
- * Prints the tree by levels
+/** 
+ * Prints the tree by levels by using 2 queues strategy
  */
-// void btPrint(BinaryTree *bt) {
-//     if(!bt) return;
+void btPrint(BinaryTree *bt) {
+    if(!bt) return;
 
-//     if (!bt->root) {
-//         printf("Empty Tree\n");
-//         return;
-//     }
+    if (!bt->root) {
+        printf("Empty Tree\n");
+        return;
+    }
 
-//     Queue *nodes = createQueue(bt->compare, bt->printItem);
-//     void *currentValue;
-//     BTNode *node;
+    Queue *processing = createQueue(bt->compare, bt->printItem);
+    Queue *toProcess = createQueue(bt->compare, bt->printItem);
+    BTNode *currentNode;
 
-//     node = bt->root;
-//     queuePut(nodes, node->data);
-//     queuePut(nodes, INT_MIN);
-    
-//     while ((currentValue = queuePop(nodes)) != INT_MAX) {        
-//         if (currentValue == INT_MIN) {
-//             printf("\n");
-//             if (queueIsEmpty(nodes)) {
-//                 queuePut(nodes, currentValue);
-//             }
-//         } else {
-//             printf("%d ", currentValue);
-//             node = btSearchKey(bt, currentValue);
-//             if (node->left) {queuePut(nodes, node->left->data);}
-//             if (node->right) {queuePut(nodes, node->right->data);}
-//         }
-//     }
-//     return;
-// }
+    queuePut(processing, bt->root);
+    while (!queueIsEmpty(processing)) {
+        while (!queueIsEmpty(processing)) {
+            currentNode = queuePop(processing);
+            if (currentNode->left) queuePut(toProcess, currentNode->left);
+            if (currentNode->right) queuePut(toProcess, currentNode->right);
+            bt->printItem(currentNode->data);
+        }
+        printf("\n");
+        Queue *auxQueue = processing;
+        processing = toProcess;
+        toProcess = auxQueue;
+    }
+    return;
+}
 
