@@ -317,6 +317,44 @@ static char *test_binaryTree_bar_remove2() {
     return 0;
 }
 
+static char *test_binaryTree_bar_remove3() {
+    BinaryTree *bt = btCreateBinaryTree(bar_customCompare, bar_customPrintItem);
+    struct bar *myBar = newBar("e", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("b", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("c", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("h", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("a", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("f", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("j", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("i", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("o", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("m", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("r", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("l", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("z", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+    myBar = newBar("p", 1, 32, 1000);
+    btInsert(bt, (void *) myBar);
+
+    struct bar *mySearch = newBar("j", 0, 0, 0);
+    btRemoveKey(bt, mySearch);
+
+    mu_assert("Error removing bar item from a non-empty binary tree", btSearchKey(bt, mySearch) == NULL);
+    return 0;
+}
+
 static char * all_tests() {
      mu_run_test(test_list_default_create);
      mu_run_test(test_list_foo_create_list);
@@ -348,6 +386,7 @@ static char * all_tests() {
      mu_run_test(test_binaryTree_bar_insert2);
      mu_run_test(test_binaryTree_bar_remove1);
      mu_run_test(test_binaryTree_bar_remove2);
+     mu_run_test(test_binaryTree_bar_remove3);
 
 
      return 0;
